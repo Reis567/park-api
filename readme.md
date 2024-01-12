@@ -16,7 +16,7 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina antes d
 1. Clone o repositório PARK API:
 
     ```bash
-    git clone https://seurepositorio.com/park-api.git
+    git clone https://github.com/Reis567/park-api.git
     ```
 
 2. Abra o projeto em sua IDE escolhida.
