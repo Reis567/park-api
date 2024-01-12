@@ -1,5 +1,7 @@
 package com.reis.demo.park.api.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.reis.demo.park.api.entity.Usuario;
@@ -25,6 +27,12 @@ public class UsuarioService {
         return usuarioRepository.findById(id).orElseThrow(
             () -> new RuntimeException("Usuário não encontrado !")
         );
+
+    }
+
+    @Transactional(readOnly=true)
+    public List<Usuario> buscarTodos(){
+        return usuarioRepository.findAll();
 
     }
 
