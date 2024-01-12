@@ -1,5 +1,7 @@
 package com.reis.demo.park.api.web.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +35,12 @@ public class UsuarioController {
     public ResponseEntity<Usuario> GetById(@PathVariable Long id){
         Usuario user = usuarioService.buscarPorId(id);
         return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Usuario>> GetAll(){
+        List<Usuario> users = usuarioService.buscarTodos();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
     @PatchMapping("/{id}")
