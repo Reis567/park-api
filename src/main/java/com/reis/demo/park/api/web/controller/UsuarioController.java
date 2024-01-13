@@ -30,6 +30,7 @@ public class UsuarioController {
     @PostMapping("/registro")
     public ResponseEntity<Usuario> create (@RequestBody UsuarioCreateDTO usuarioCreateDTO){
         Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(usuarioCreateDTO));
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }  
 
