@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.reis.demo.park.api.entity.Usuario;
 import com.reis.demo.park.api.service.UsuarioService;
+import com.reis.demo.park.api.web.dto.UsuarioCreateDTO;
+import com.reis.demo.park.api.web.dto.mapper.UsuarioMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,8 +28,8 @@ public class UsuarioController {
 
 
     @PostMapping("/registro")
-    public ResponseEntity<Usuario> create (@RequestBody Usuario usuario){
-        Usuario user = usuarioService.salvar(usuario);
+    public ResponseEntity<Usuario> create (@RequestBody UsuarioCreateDTO usuarioCreateDTO){
+        Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(usuarioCreateDTO));
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }  
 
