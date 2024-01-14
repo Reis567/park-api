@@ -25,4 +25,6 @@ public class UsuarioMapper {
         ModelMapper modelMapper =  new ModelMapper();
         modelMapper.addMappings(propertyMap);
         return modelMapper.map(usuario, UsuarioResponseDTO.class);
+
+    }
 }
