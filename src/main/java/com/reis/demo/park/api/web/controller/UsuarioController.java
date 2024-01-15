@@ -36,9 +36,9 @@ public class UsuarioController {
     }  
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> GetById(@PathVariable Long id){
+    public ResponseEntity<UsuarioResponseDTO> GetById(@PathVariable Long id){
         Usuario user = usuarioService.buscarPorId(id);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        return ResponseEntity.status(HttpStatus.OK).body(UsuarioMapper.toDTO(user));
     }
 
     @GetMapping
