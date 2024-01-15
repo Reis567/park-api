@@ -1,5 +1,9 @@
 package com.reis.demo.park.api.web.exception;
 
+import org.springframework.http.HttpStatus;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 public class ErrorMessage {
 
     private String path;
@@ -12,7 +16,11 @@ public class ErrorMessage {
 
     private String message;
  
-    public ErrorMessage(){
-        
+    public ErrorMessage(HttpServletRequest request , HttpStatus status, String message){
+        this.path = request.getRequestURI();
+        this.method = request.getMethod();
+        this.status = status.value();
+        this.statusText = status.getReasonPhrase();
+        this.message = message;
     }
 }
