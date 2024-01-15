@@ -43,7 +43,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> GetAll(){
+    public ResponseEntity<List<UsuarioResponseDTO>> GetAll(){
         List<Usuario> users = usuarioService.buscarTodos();
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
