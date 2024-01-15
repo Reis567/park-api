@@ -7,7 +7,7 @@ import lombok.*;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 public class UsuarioCreateDTO {
 
-    @Email(message = "Formato de email Inválido")
+    @Email(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",message = "Formato de email Inválido")
     @NotBlank
     private String username;
 
