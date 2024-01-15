@@ -16,6 +16,7 @@ import com.reis.demo.park.api.entity.Usuario;
 import com.reis.demo.park.api.service.UsuarioService;
 import com.reis.demo.park.api.web.dto.UsuarioCreateDTO;
 import com.reis.demo.park.api.web.dto.UsuarioResponseDTO;
+import com.reis.demo.park.api.web.dto.UsuarioSenhaDTO;
 import com.reis.demo.park.api.web.dto.mapper.UsuarioMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -48,9 +49,9 @@ public class UsuarioController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Usuario> updatePassword(@PathVariable Long id , @RequestBody Usuario usuario){
-        Usuario user = usuarioService.editarSenha(id, usuario.getPassword());
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+    public ResponseEntity<UsuarioResponseDTO> updatePassword(@PathVariable Long id , @RequestBody UsuarioSenhaDTO usuarioSenhaDTO){
+        Usuario user = usuarioService.editarSenha(id, usuarioSenhaDTO.getSenhaAtual(), usuarioSenhaDTO.getNovaSenha(), usuarioSenhaDTO.getConfirmaSenha());
+        return ResponseEntity.status(HttpStatus.OK).body(UsuarioMapper.toDTO(user));
     }
     
 }
