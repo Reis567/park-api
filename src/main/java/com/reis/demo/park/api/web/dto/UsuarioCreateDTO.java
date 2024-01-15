@@ -7,8 +7,11 @@ import lombok.*;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 public class UsuarioCreateDTO {
 
-    @Email(message = "Formato de emai. Inválido")
+    @Email(message = "Formato de email Inválido")
     @NotBlank
     private String username;
+
+    @NotBlank
+    @Size(min = 6)
     private String password;
 }

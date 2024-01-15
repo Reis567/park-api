@@ -19,6 +19,7 @@ import com.reis.demo.park.api.web.dto.UsuarioResponseDTO;
 import com.reis.demo.park.api.web.dto.UsuarioSenhaDTO;
 import com.reis.demo.park.api.web.dto.mapper.UsuarioMapper;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class UsuarioController {
 
 
     @PostMapping("/registro")
-    public ResponseEntity<UsuarioResponseDTO> create (@RequestBody UsuarioCreateDTO usuarioCreateDTO){
+    public ResponseEntity<UsuarioResponseDTO> create (@Valid @RequestBody UsuarioCreateDTO usuarioCreateDTO){
         Usuario user = usuarioService.salvar(UsuarioMapper.toUsuario(usuarioCreateDTO));
         
         return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDTO(user));
