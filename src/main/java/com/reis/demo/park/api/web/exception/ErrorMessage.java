@@ -49,5 +49,6 @@ public class ErrorMessage {
         for(FieldError fieldError : result.getFieldErrors()){
             this.errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
+        return null;
     }
 }
