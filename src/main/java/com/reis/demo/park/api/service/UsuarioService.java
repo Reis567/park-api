@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.reis.demo.park.api.entity.Usuario;
+import com.reis.demo.park.api.exception.UsernameUniqueViolationException;
 import com.reis.demo.park.api.repository.UsuarioRepository;
 
 
@@ -21,7 +22,11 @@ public class UsuarioService {
     
     @Transactional
     public Usuario salvar (Usuario usuario){
-        return usuarioRepository.save(usuario);
+        try {
+            return usuarioRepository.save(usuario);
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            throw new UsernameUniqueViolationException(String.format("Username '%s' já cadastrado", usuario.getUsername()));
+        }
     }
 
     @Transactional(readOnly=true)
