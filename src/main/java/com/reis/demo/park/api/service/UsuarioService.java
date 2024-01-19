@@ -25,7 +25,7 @@ public class UsuarioService {
         try {
             return usuarioRepository.save(usuario);
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
-            throw new UsernameUniqueViolationException(String.format("Username '%s' já cadastrado", usuario.getUsername()));
+            throw new UsernameUniqueViolationException(String.format("Username {%s} já cadastrado", usuario.getUsername()));
         }
     }
 
