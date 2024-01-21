@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.exception.UsernameUniqueViolationException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,10 +26,17 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(UsernameUniqueViolationException.class)
-    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(RuntimeException exception , HttpServletRequest request ){
+    public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException exception , HttpServletRequest request ){
 
         log.error("Api error - " , exception);
         return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage()));
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorMessage> entitNotFoundException(RuntimeException exception , HttpServletRequest request ){
+
+        log.error("Api error - " , exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage()));
     }
     
 }
