@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.reis.demo.park.api.entity.Usuario;
+import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.exception.UsernameUniqueViolationException;
 import com.reis.demo.park.api.repository.UsuarioRepository;
 
@@ -32,7 +33,7 @@ public class UsuarioService {
     @Transactional(readOnly=true)
     public Usuario buscarPorId(Long id){
         return usuarioRepository.findById(id).orElseThrow(
-            () -> new RuntimeException("Usuário não encontrado !")
+            () -> new EntityNotFoundException(String.format("Usuário não encontrado !",id))
         );
 
     }
