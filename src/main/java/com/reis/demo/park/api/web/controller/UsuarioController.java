@@ -76,6 +76,13 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(UsuarioMapper.toDTO(user));
     }
 
+    @Operation(summary = "Recuperar todos os usuários",
+    description = "Recuperar todos os usuários",
+    responses = {
+        @ApiResponse(responseCode = "200",description = "Usuários recuperados com sucesso"
+        , content = @Content(mediaType = "application/json",schema = @Schema(implementation=UsuarioResponseDTO.class)))
+        }
+    )
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> GetAll(){
         List<Usuario> users = usuarioService.buscarTodos();
@@ -93,8 +100,8 @@ public class UsuarioController {
         
         @ApiResponse(responseCode = "400", description = "Senha não confere",
         content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
-    }
-)
+        }
+    )
     @PatchMapping("/{id}")
     public ResponseEntity<UsuarioResponseDTO> updatePassword( @PathVariable Long id , @Valid @RequestBody UsuarioSenhaDTO usuarioSenhaDTO){
         Usuario user = usuarioService.editarSenha(id, usuarioSenhaDTO.getSenhaAtual(), usuarioSenhaDTO.getNovaSenha(), usuarioSenhaDTO.getConfirmaSenha());
