@@ -77,4 +77,34 @@ public class UsuarioIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
     }
+
+    @Test
+    public void createUsuario_ComPasswordInvalido_RetornarErrorMessageComStatus422(){
+        ErrorMessage responseBody = testClient
+            .post()
+            .uri("/api/v1/usuarios/registro")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioCreateDTO("toby@email.com",""))
+            .exchange()
+            .expectStatus().isEqualTo(422)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+
+        responseBody = testClient
+            .post()
+            .uri("/api/v1/usuarios/registro")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioCreateDTO("toby@email.com","12"))
+            .exchange()
+            .expectStatus().isEqualTo(422)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+
+    }
 }
