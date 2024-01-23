@@ -9,6 +9,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.reis.demo.park.api.web.dto.UsuarioCreateDTO;
 import com.reis.demo.park.api.web.dto.UsuarioResponseDTO;
+import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(scripts = "/sql/usuarios/usuarios-insert.sql" ,executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -34,5 +35,46 @@ public class UsuarioIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getUsername()).isEqualTo("toby@email.com");
         org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo("CLIENTE");
+    }
+    @Test
+    public void createUsuario_ComUsernameInvalido_RetornarErrorMessageComStatus422(){
+        ErrorMessage responseBody = testClient
+            .post()
+            .uri("/api/v1/usuarios/registro")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioCreateDTO("aaamail.com","123456"))
+            .exchange()
+            .expectStatus().isEqualTo(422)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+
+        responseBody = testClient
+            .post()
+            .uri("/api/v1/usuarios/registro")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioCreateDTO("aaa@mailcom","123456"))
+            .exchange()
+            .expectStatus().isEqualTo(422)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+
+        responseBody = testClient
+            .post()
+            .uri("/api/v1/usuarios/registro")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioCreateDTO("aa@.com","123456"))
+            .exchange()
+            .expectStatus().isEqualTo(422)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
     }
 }
