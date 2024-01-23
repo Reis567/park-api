@@ -9,6 +9,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.reis.demo.park.api.web.dto.UsuarioCreateDTO;
 import com.reis.demo.park.api.web.dto.UsuarioResponseDTO;
+import com.reis.demo.park.api.web.dto.UsuarioSenhaDTO;
 import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -153,6 +154,17 @@ public class UsuarioIT {
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+    }
+    
+    @Test
+    public void updatePassword_ComDadosValidos_RetornaRStatus204(){
+        testClient
+            .patch()
+            .uri("/api/v1/usuarios/100")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioSenhaDTO("123456","1234567","1234567"))
+            .exchange()
+            .expectStatus().isOk();
     }
     
 
