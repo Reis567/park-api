@@ -36,7 +36,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErrorMessage> entitNotFoundException(RuntimeException exception , HttpServletRequest request ){
 
         log.error("Api error - " , exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.NOT_FOUND, exception.getMessage()));
     }
     
 }
