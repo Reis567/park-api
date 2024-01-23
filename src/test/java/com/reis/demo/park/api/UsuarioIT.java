@@ -166,6 +166,22 @@ public class UsuarioIT {
             .exchange()
             .expectStatus().isOk();
     }
+    @Test
+    public void updatePassword_ComIdInexistente_RetornarErroMessageComStatus404(){
+        ErrorMessage responseBody = testClient
+            .patch()
+            .uri("/api/v1/usuarios/00")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioSenhaDTO("123456","1234567","1234567"))
+            .exchange()
+            .expectStatus().isNotFound()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+    }
+    
     
 
 }
