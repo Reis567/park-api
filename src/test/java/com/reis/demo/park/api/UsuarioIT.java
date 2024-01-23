@@ -36,6 +36,7 @@ public class UsuarioIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getUsername()).isEqualTo("toby@email.com");
         org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo("CLIENTE");
     }
+    
     @Test
     public void createUsuario_ComUsernameInvalido_RetornarErrorMessageComStatus422(){
         ErrorMessage responseBody = testClient
@@ -124,4 +125,21 @@ public class UsuarioIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(409);
     }
+    @Test
+    public void BuscarUsuario_ComIdExistente_RetornarUsuarioComStatus200(){
+        UsuarioResponseDTO responseBody = testClient
+            .get()
+            .uri("/api/v1/usuarios/100")
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(UsuarioResponseDTO.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isEqualTo(100);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getUsername()).isEqualTo("ana@gmail.com");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getRole()).isEqualTo("ADMIN");
+    }
+    
+
 }
