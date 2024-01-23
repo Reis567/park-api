@@ -107,4 +107,21 @@ public class UsuarioIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
 
     }
+
+    
+    @Test
+    public void createUsuario_ComUsernameRepetido_RetornarErrorMessageComStatus409(){
+        ErrorMessage responseBody = testClient
+            .post()
+            .uri("/api/v1/usuarios/registro")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioCreateDTO("ana@gmail.com","123456"))
+            .exchange()
+            .expectStatus().isEqualTo(409)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(409);
+    }
 }

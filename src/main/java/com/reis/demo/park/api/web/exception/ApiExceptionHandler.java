@@ -29,7 +29,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException exception , HttpServletRequest request ){
 
         log.error("Api error - " , exception);
-        return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.CONFLICT, exception.getMessage()));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
