@@ -59,6 +59,11 @@ public class JwtUtils {
         return null;
 
     }
+
+    public static String getUsernameFromToken(String token){
+        return getClaimsFromToken(token).getSubject();
+    }
+
     private static String refactorToken(String token){
         if(token.contains(JWT_BEARER)){
             return token.substring(JWT_BEARER.length())
