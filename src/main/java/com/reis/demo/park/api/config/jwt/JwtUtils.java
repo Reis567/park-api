@@ -59,6 +59,18 @@ public class JwtUtils {
         return null;
 
     }
+    public static boolean isTokenValid( String token){
+        try {
+            Jwts.parser()
+                        .verifyWith(generateKey())
+                        .build()
+                        .parseSignedClaims(refactorToken(token));
+            return true;
+        } catch (JwtException exception) {
+            log.error(String.format("Token invalido %s", exception.getMessage()));
+        }
+        return false;
+    }
 
     public static String getUsernameFromToken(String token){
         return getClaimsFromToken(token).getSubject();
