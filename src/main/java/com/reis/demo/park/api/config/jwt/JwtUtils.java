@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,13 +23,26 @@ public class JwtUtils {
     private JwtUtils(){
 
     }
-    private static Key generateKey(){
+    private static javax.crypto.SecretKey generateKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-    }
+        }
 
     private static Date toExpireDate(Date start ){
         LocalDateTime dateTime = start.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
         LocalDateTime end = dateTime.plusDays(EXPIRE_DAYS).plusHours(EXPIRES_HOURS).plusMinutes(EXPIRES_MINUTES);
         return Date.from(end.atZone(ZoneId.systemDefault()).toInstant());
+    }
+    public static JwtToken createToken(String username, String role){
+        Date issuedAt = new Date();
+        Date limit = toExpireDate(issuedAt);
+        String token = Jwts.builder()
+            .header().add("typ", "JWT")
+            .and()
+            .subject(username).issuedAt(issuedAt)
+            .expiration(limit)
+            .signWith(generateKey())
+            .claim("role", role)
+            .compact();
+            return new JwtToken(token);
     }
 }
