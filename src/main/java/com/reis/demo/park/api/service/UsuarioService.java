@@ -67,4 +67,10 @@ public class UsuarioService {
         );
     }
 
+    @Transactional(readOnly=true)
+    public Usuario.Role buscarRolePorUsuario(String username){
+        return usuarioRepository.findRoleByUsername(username);
+    }
+    
+
 }
