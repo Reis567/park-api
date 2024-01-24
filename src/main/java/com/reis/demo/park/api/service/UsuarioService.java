@@ -2,8 +2,7 @@ package com.reis.demo.park.api.service;
 
 import java.util.List;
 
-
-
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.reis.demo.park.api.entity.Usuario;
@@ -13,6 +12,8 @@ import com.reis.demo.park.api.repository.UsuarioRepository;
 
 
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -45,15 +46,16 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario editarSenha(Long id , String senhaAtual , String novaSenha, String confirmaSenha){
-        if(!novaSenha.equals(confirmaSenha)){
-            throw new RuntimeException("Nova senha não confere com confirmação de senha ");
+    public Usuario editarSenha(Long id, String senhaAtual, String novaSenha, String confirmaSenha) {
+        if (!novaSenha.equals(confirmaSenha)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nova senha não confere com confirmação de senha");
         }
 
         Usuario user = buscarPorId(id);
         if (!user.getPassword().equals(senhaAtual)) {
-            throw new RuntimeException("Sua senha não confere");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sua senha não confere");
         }
+
         user.setPassword(novaSenha);
         return user;
     }
