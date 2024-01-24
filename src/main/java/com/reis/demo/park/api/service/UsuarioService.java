@@ -60,4 +60,11 @@ public class UsuarioService {
         return user;
     }
 
+    @Transactional(readOnly=true)
+    public Usuario buscarPorUsername(String username){
+        return usuarioRepository.findByUsername(username).orElseThrow(
+            () -> new EntityNotFoundException(String.format("Usuário '%s' não encontrado !"))
+        );
+    }
+
 }
