@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -44,5 +46,23 @@ public class JwtUtils {
             .claim("role", role)
             .compact();
             return new JwtToken(token);
+    }
+    private static Claims getClaimsFromToken(String token){
+        try {
+            return Jwts.parser()
+                        .verifyWith(generateKey())
+                        .build()
+                        .parseSignedClaims(refactorToken(token)).getPayload();
+        } catch (JwtException exception) {
+            log.error(String.format("Token invalido %s", exception.getMessage()));
+        }
+        return null;
+
+    }
+    private static String refactorToken(String token){
+        if(token.contains(JWT_BEARER)){
+            return token.substring(JWT_BEARER.length())
+        }
+        return token;
     }
 }
