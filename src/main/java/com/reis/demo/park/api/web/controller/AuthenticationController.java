@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,8 @@ public class AuthenticationController {
     private final JwtUserDetailsService jwtUserDetailsService;
     private final AuthenticationManager authenticationManager;
 
+
+    @PostMapping("/auth")
     public ResponseEntity<?> autenticar(@RequestBody @Valid UsuarioLoginDTO usuarioLoginDTO , HttpServletRequest request){
         log.info("Processo de autenticação com o login '{}'",usuarioLoginDTO.getUsername());
         try {
