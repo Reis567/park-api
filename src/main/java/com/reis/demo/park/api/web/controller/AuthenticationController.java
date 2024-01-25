@@ -3,6 +3,7 @@ package com.reis.demo.park.api.web.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +27,20 @@ public class AuthenticationController {
     private final JwtUserDetailsService jwtUserDetailsService;
     private final AuthenticationManager authenticationManager;
 
-    public ResponseEntity<JwtToken> autenticar(@RequestBody @Valid UsuarioLoginDTO usuarioLoginDTO , HttpServletRequest request){
+    public ResponseEntity<?> autenticar(@RequestBody @Valid UsuarioLoginDTO usuarioLoginDTO , HttpServletRequest request){
         log.info("Processo de autenticação com o login '{}'",usuarioLoginDTO.getUsername());
         try {
-            
+
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usuarioLoginDTO.getUsername(), usuarioLoginDTO.getPassword());
+
+            authenticationManager.authenticate(authenticationToken);
+            JwtToken token = jwtUserDetailsService.getTokenAuthenticated(usuarioLoginDTO.getUsername());
+            return ResponseEntity.ok().body(token);
+
         } catch (AuthenticationException exception) {
+
             log.error("Bad credentials from username'{}'", usuarioLoginDTO.getUsername());
+
         }
         return ResponseEntity.badRequest().body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, "Credenciais inválidas"));
     }
