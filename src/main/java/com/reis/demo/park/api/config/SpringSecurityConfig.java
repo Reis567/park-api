@@ -29,6 +29,7 @@ public class SpringSecurityConfig {
             .httpBasic(basic -> basic.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "api/v1/usuarios/registro").permitAll()
+                .requestMatchers(HttpMethod.POST, "api/v1/auth").permitAll()
                 .anyRequest().authenticated()
 
             ).sessionManagement(
