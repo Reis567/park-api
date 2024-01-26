@@ -55,7 +55,7 @@ public class UsuarioService {
         }
 
         Usuario user = buscarPorId(id);
-        if (!user.getPassword().equals(senhaAtual)) {
+        if (!passwordEncoder.matches(senhaAtual, user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sua senha não confere");
         }
 
