@@ -62,6 +62,7 @@ public class UsuarioController {
 
 
     @Operation(summary = "Recuperar um usuário pelo id ",
+    security = @SecurityRequirement(name = "security"),
                 description = "Recuperar um usuário pelo id ",
                 responses = {
                     @ApiResponse(responseCode = "200",description = "Recurso recuperado com sucesso  "
@@ -80,6 +81,7 @@ public class UsuarioController {
     }
 
     @Operation(summary = "Recuperar todos os usuários",
+    security = @SecurityRequirement(name = "security"),
     description = "Recuperar todos os usuários",
     responses = {
         @ApiResponse(responseCode = "200",description = "Usuários recuperados com sucesso"
@@ -94,6 +96,7 @@ public class UsuarioController {
     }
 
     @Operation(summary = "Atualizar senha",
+    security = @SecurityRequirement(name = "security"),
     description = "Atualizar senha",
     responses = {
         @ApiResponse(responseCode = "204",description = "Senha atualizada com sucesso "
