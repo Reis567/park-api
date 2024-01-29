@@ -223,7 +223,7 @@ public class UsuarioIT {
             .expectStatus().isOk();
     }
     @Test
-    public void updatePassword_ComIdInexistente_RetornarErroMessageComStatus403(){
+    public void updatePassword_ComIdDiferente_RetornarErroMessageComStatus403(){
         ErrorMessage responseBody = testClient
             .patch()
             .uri("/api/v1/usuarios/100")
