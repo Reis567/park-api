@@ -71,6 +71,9 @@ public class UsuarioController {
                     @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
                     content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
                     
+                    @ApiResponse(responseCode = "403", description = "Usuário não autorizado",
+                    content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
+                    
                 }
         )
     @GetMapping("/{id}")
@@ -85,7 +88,10 @@ public class UsuarioController {
     description = "Recuperar todos os usuários",
     responses = {
         @ApiResponse(responseCode = "200",description = "Usuários recuperados com sucesso"
-        , content = @Content(mediaType = "application/json",schema = @Schema(implementation=UsuarioResponseDTO.class)))
+        , content = @Content(mediaType = "application/json",schema = @Schema(implementation=UsuarioResponseDTO.class))),
+        
+        @ApiResponse(responseCode = "403", description = "Usuário não autorizado",
+        content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class)))
         }
     )
     @GetMapping
@@ -107,7 +113,11 @@ public class UsuarioController {
         
         @ApiResponse(responseCode = "400", description = "Senha não confere",
         content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
+
         @ApiResponse(responseCode = "422", description = "Senhas inválidas ou mal formatadas",
+        content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
+
+        @ApiResponse(responseCode = "403", description = "Usuário não autorizado",
         content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
         }
     )
