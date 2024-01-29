@@ -31,6 +31,11 @@ public class SpringSecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "api/v1/usuarios/registro").permitAll()
                 .requestMatchers(HttpMethod.POST, "api/v1/auth").permitAll()
+                .requestMatchers("/docs-park.html").permitAll()
+                .requestMatchers("/docs-park/**").permitAll()
+                .requestMatchers("/swagger-ui.html").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .requestMatchers("/webjars/**").permitAll()
                 .anyRequest().authenticated()
 
             ).sessionManagement(
