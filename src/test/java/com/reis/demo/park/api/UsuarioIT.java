@@ -189,6 +189,20 @@ public class UsuarioIT {
     }
     
     @Test
+    public void BuscarUsuario_ComUsuarioClienteBuscandoOutroCliente_RetornarErroMessageComStatus403(){
+        ErrorMessage responseBody = testClient
+            .get()
+            .uri("/api/v1/usuarios/102")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+            .exchange()
+            .expectStatus().isForbidden()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
+    }
+    @Test
     public void updatePassword_ComDadosValidos_RetornaRStatus204(){
         testClient
             .patch()
