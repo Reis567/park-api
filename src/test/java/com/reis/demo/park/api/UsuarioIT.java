@@ -178,6 +178,7 @@ public class UsuarioIT {
         ErrorMessage responseBody = testClient
             .get()
             .uri("/api/v1/usuarios/00")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
             .exchange()
             .expectStatus().isNotFound()
             .expectBody(ErrorMessage.class)
