@@ -212,6 +212,15 @@ public class UsuarioIT {
             .bodyValue(new UsuarioSenhaDTO("123456","1234567","1234567"))
             .exchange()
             .expectStatus().isOk();
+
+            testClient
+            .patch()
+            .uri("/api/v1/usuarios/101")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioSenhaDTO("123456","1234567","1234567"))
+            .exchange()
+            .expectStatus().isOk();
     }
     @Test
     public void updatePassword_ComIdInexistente_RetornarErroMessageComStatus404(){
