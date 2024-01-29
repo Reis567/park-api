@@ -105,11 +105,7 @@ public class UsuarioController {
     security = @SecurityRequirement(name = "security"),
     description = "Atualizar senha",
     responses = {
-        @ApiResponse(responseCode = "204",description = "Senha atualizada com sucesso "
-        , content = @Content(mediaType = "application/json",schema = @Schema(implementation =Void.class))),
-
-        @ApiResponse(responseCode = "404", description = "Recurso não encontrado",
-        content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
+        @ApiResponse(responseCode = "200",description = "Senha atualizada com sucesso "),
         
         @ApiResponse(responseCode = "400", description = "Senha não confere",
         content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
@@ -124,8 +120,8 @@ public class UsuarioController {
     @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'CLIENTE') AND (#id == authentication.principal.id)")
     public ResponseEntity<UsuarioResponseDTO> updatePassword( @PathVariable Long id , @Valid @RequestBody UsuarioSenhaDTO usuarioSenhaDTO){
-        Usuario user = usuarioService.editarSenha(id, usuarioSenhaDTO.getSenhaAtual(), usuarioSenhaDTO.getNovaSenha(), usuarioSenhaDTO.getConfirmaSenha());
-        return ResponseEntity.status(HttpStatus.OK).body(UsuarioMapper.toDTO(user));
+        usuarioService.editarSenha(id, usuarioSenhaDTO.getSenhaAtual(), usuarioSenhaDTO.getNovaSenha(), usuarioSenhaDTO.getConfirmaSenha());
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
     
 }
