@@ -223,19 +223,20 @@ public class UsuarioIT {
             .expectStatus().isOk();
     }
     @Test
-    public void updatePassword_ComIdInexistente_RetornarErroMessageComStatus404(){
+    public void updatePassword_ComIdInexistente_RetornarErroMessageComStatus403(){
         ErrorMessage responseBody = testClient
             .patch()
-            .uri("/api/v1/usuarios/00")
+            .uri("/api/v1/usuarios/100")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(new UsuarioSenhaDTO("123456","1234567","1234567"))
             .exchange()
-            .expectStatus().isNotFound()
+            .expectStatus().isForbidden()
             .expectBody(ErrorMessage.class)
             .returnResult().getResponseBody();
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
-        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
     }
 
     @Test
