@@ -174,6 +174,18 @@ public class UsuarioIT {
     }
 
     @Test
+    public void BuscarUsuario_SemAutorizacao_RetornarErroMessageComStatus401(){
+        ErrorMessage responseBody = testClient
+            .get()
+            .uri("/api/v1/usuarios/100")
+            .exchange()
+            .expectStatus().isUnauthorized()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+    }
+
+    @Test
     public void BuscarUsuario_ComIdInexistente_RetornarErroMessageComStatus404(){
         ErrorMessage responseBody = testClient
             .get()
