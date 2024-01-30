@@ -244,6 +244,7 @@ public class UsuarioIT {
         ErrorMessage responseBody = testClient
             .patch()
             .uri("/api/v1/usuarios/100")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(new UsuarioSenhaDTO("","",""))
             .exchange()
@@ -257,6 +258,7 @@ public class UsuarioIT {
         responseBody = testClient
             .patch()
             .uri("/api/v1/usuarios/100")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(new UsuarioSenhaDTO("1","1","1"))
             .exchange()
