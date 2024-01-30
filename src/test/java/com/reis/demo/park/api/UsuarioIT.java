@@ -234,6 +234,18 @@ public class UsuarioIT {
             .exchange()
             .expectStatus().isOk();
     }
+
+    @Test
+    public void updatePassword_SemAutorizacao_RetornarErroMessageComStatus401(){
+        testClient
+            .patch()
+            .uri("/api/v1/usuarios/100")
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new UsuarioSenhaDTO("123456","1234567","1234567"))
+            .exchange()
+            .expectStatus().isUnauthorized()
+            .expectBody(ErrorMessage.class);
+    }
     @Test
     public void updatePassword_ComIdDiferente_RetornarErroMessageComStatus403(){
         ErrorMessage responseBody = testClient
