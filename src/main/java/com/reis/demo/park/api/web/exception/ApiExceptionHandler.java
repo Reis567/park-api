@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.reis.demo.park.api.exception.EntityNotFoundException;
+import com.reis.demo.park.api.exception.PasswordConfException;
 import com.reis.demo.park.api.exception.UsernameUniqueViolationException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,5 +47,12 @@ public class ApiExceptionHandler {
         log.error("Api error - " , exception);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.FORBIDDEN, exception.getMessage()));
     }
+    @ExceptionHandler(PasswordConfException.class)
+    public ResponseEntity<ErrorMessage> senhaNaoConfereException(PasswordConfException exception, HttpServletRequest request) {
+        log.error("Api error - ", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, exception.getMessage()));
+    }
+
     
 }

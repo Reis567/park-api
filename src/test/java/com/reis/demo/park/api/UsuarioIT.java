@@ -275,8 +275,9 @@ public class UsuarioIT {
         ErrorMessage responseBody = testClient
             .patch()
             .uri("/api/v1/usuarios/100")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(new UsuarioSenhaDTO("123456","1234567","123456"))
+            .bodyValue(new UsuarioSenhaDTO("123456","1234567","12345678"))
             .exchange()
             .expectStatus().isEqualTo(400)
             .expectBody(ErrorMessage.class)
