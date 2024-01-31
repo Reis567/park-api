@@ -9,6 +9,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.reis.demo.park.api.config.jwt.JwtToken;
 import com.reis.demo.park.api.web.dto.UsuarioLoginDTO;
+import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(scripts = "/sql/usuarios/usuarios-insert.sql" ,executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -30,5 +31,21 @@ public class AutenticacaoIT {
         .returnResult().getResponseBody();
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+    }
+
+    @Test
+    public void autenticar_ComCredenciaisInvalid_RetornarErrorMessageComStatus400(){
+        ErrorMessage responseBody = testClient
+        .post()
+        .uri("api/v1/auth")
+        .contentType(MediaType.APPLICATION_JSON)
+        .bodyValue(new UsuarioLoginDTO("invalido@gmail.com","123456"))
+        .exchange()
+        .expectStatus().isBadRequest()
+        .expectBody(ErrorMessage.class)
+        .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(400);
     }
 }
