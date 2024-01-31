@@ -47,5 +47,18 @@ public class AutenticacaoIT {
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(400);
+
+        responseBody = testClient
+        .post()
+        .uri("api/v1/auth")
+        .contentType(MediaType.APPLICATION_JSON)
+        .bodyValue(new UsuarioLoginDTO("ana@gmail.com","1234567"))
+        .exchange()
+        .expectStatus().isBadRequest()
+        .expectBody(ErrorMessage.class)
+        .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(400);
     }
 }
