@@ -61,4 +61,21 @@ public class AutenticacaoIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(400);
     }
+
+    @Test
+    public void autenticar_ComDadosEmFormatoInvalid_RetornarErrorMessageComStatus422(){
+        ErrorMessage responseBody = testClient
+        .post()
+        .uri("api/v1/auth")
+        .contentType(MediaType.APPLICATION_JSON)
+        .bodyValue(new UsuarioLoginDTO("","123456"))
+        .exchange()
+        .expectStatus().isEqualTo(422)
+        .expectBody(ErrorMessage.class)
+        .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+
+    }
 }
