@@ -43,6 +43,9 @@ public class AuthenticationController {
 
                         @ApiResponse(responseCode = "400", description = "Credenciais inválidas",
                         content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
+
+                        @ApiResponse(responseCode = "422", description = "Campos inválidos",
+                        content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
                         
                     })
     @PostMapping("/auth")
