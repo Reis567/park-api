@@ -13,13 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reis.demo.park.api.config.jwt.JwtToken;
 import com.reis.demo.park.api.config.jwt.JwtUserDetailsService;
 import com.reis.demo.park.api.web.dto.UsuarioLoginDTO;
+import com.reis.demo.park.api.web.dto.UsuarioResponseDTO;
 import com.reis.demo.park.api.web.exception.ErrorMessage;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Tag(name = "Autenticação", description = "Recurso para proceder com a autenticação na API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +35,13 @@ public class AuthenticationController {
     private final JwtUserDetailsService jwtUserDetailsService;
     private final AuthenticationManager authenticationManager;
 
-
+    @Operation(summary = "Autenticar na API",
+                    description = "Recurso para fazer login na api",
+                    responses = {
+                        @ApiResponse(responseCode = "200",description = "Autenticação realizada com sucesso e retorno do Bearer token"
+                        , content = @Content(mediaType = "application/json",schema = @Schema(implementation = UsuarioResponseDTO.class))),
+                        
+                    })
     @PostMapping("/auth")
     public ResponseEntity<?> autenticar(@RequestBody @Valid UsuarioLoginDTO usuarioLoginDTO , HttpServletRequest request){
         log.info("Processo de autenticação com o login '{}'",usuarioLoginDTO.getUsername());
