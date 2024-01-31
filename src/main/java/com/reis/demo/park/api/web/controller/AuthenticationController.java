@@ -40,6 +40,9 @@ public class AuthenticationController {
                     responses = {
                         @ApiResponse(responseCode = "200",description = "Autenticação realizada com sucesso e retorno do Bearer token"
                         , content = @Content(mediaType = "application/json",schema = @Schema(implementation = UsuarioResponseDTO.class))),
+
+                        @ApiResponse(responseCode = "400", description = "Credenciais inválidas",
+                        content = @Content(mediaType = "application/json",schema = @Schema(implementation = ErrorMessage.class))),
                         
                     })
     @PostMapping("/auth")
