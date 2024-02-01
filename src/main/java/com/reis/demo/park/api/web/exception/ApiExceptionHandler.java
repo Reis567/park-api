@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.reis.demo.park.api.exception.CpfUniqueViolationException;
 import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.exception.PasswordConfException;
 import com.reis.demo.park.api.exception.UsernameUniqueViolationException;
@@ -27,7 +28,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.UNPROCESSABLE_ENTITY, "Campos inválidos !", result ));
     }
 
-    @ExceptionHandler(UsernameUniqueViolationException.class)
+    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
     public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException exception , HttpServletRequest request ){
 
         log.error("Api error - " , exception);
