@@ -2,8 +2,7 @@ package com.reis.demo.park.api.web.dto;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
