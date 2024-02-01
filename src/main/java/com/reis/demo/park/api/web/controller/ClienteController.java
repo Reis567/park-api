@@ -27,5 +27,7 @@ public class ClienteController {
     public ResponseEntity<ClienteResponseDTO> create(@RequestBody @Valid ClienteCreateDTO clienteCreateDTO, @AuthenticationPrincipal JwtUserDetails userDetails){
         Cliente cliente = ClienteMapper.toCliente(clienteCreateDTO);
         cliente.setUsuario(usuarioService.buscarPorId(userDetails.getId()));
+
+        clienteService.salvar(cliente);
     }
 }
