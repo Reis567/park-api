@@ -1,11 +1,14 @@
 package com.reis.demo.park.api.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,4 +33,21 @@ public class Cliente implements Serializable{
     @OneToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario usuario;
+
+
+     @CreatedDate
+    @Column(name = "data_criacao")
+    private LocalDateTime dataCriacao;
+
+    @LastModifiedDate
+    @Column(name = "data_modificacao")
+    private LocalDateTime dataModificacao;
+
+    @CreatedBy
+    @Column(name = "criado_por")
+    private String criadoPor;
+
+    @LastModifiedBy
+    @Column(name = "modificado_por")
+    private String modificadoPor;
 }
