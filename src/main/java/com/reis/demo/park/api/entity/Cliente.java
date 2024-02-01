@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +17,7 @@ import lombok.Setter;
 @Table(name = "clientes")
 @EntityListeners(AuditingEntityListener.class)
 public class Cliente implements Serializable{
-    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 }
