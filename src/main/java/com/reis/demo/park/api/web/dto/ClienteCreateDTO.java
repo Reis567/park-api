@@ -8,9 +8,12 @@ import lombok.*;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 public class ClienteCreateDTO {
-    @NotBlank @Size(min = 3 ,max = 130)
+    @NotBlank
+    @Size(min = 3 ,max = 130)
     private String nome;
 
-    @NotBlank @Size(min = 11 ,max = 11) @CPF
+    @NotBlank
+    @Size(min = 11 ,max = 11)
+    @CPF
     private String cpf;
 }

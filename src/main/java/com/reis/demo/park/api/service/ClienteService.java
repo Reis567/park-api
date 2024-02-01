@@ -17,11 +17,15 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
 
     @Transactional
-    public Cliente salvar (Cliente cliente){
+    public Cliente salvar(Cliente cliente) {
         try {
-            return clienteRepository.save(cliente);
+            log.info("Salvando cliente: {}", cliente);
+            Cliente savedCliente = clienteRepository.save(cliente);
+            log.info("Cliente salvo com sucesso: {}", savedCliente);
+            return savedCliente;
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
-            throw new CpfUniqueViolationException(String.format("CPF '%s' não pode ser cadastrado , já existe ", cliente.getCpf()));
+            log.error("Erro ao salvar cliente. Motivo: {}", ex.getMessage());
+            throw new CpfUniqueViolationException(String.format("CPF '%s' não pode ser cadastrado, já existe", cliente.getCpf()));
         }
     }
 }

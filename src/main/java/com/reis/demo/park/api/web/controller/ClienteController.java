@@ -30,6 +30,8 @@ public class ClienteController {
     @PostMapping
     @PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<ClienteResponseDTO> create(@RequestBody @Valid ClienteCreateDTO clienteCreateDTO, @AuthenticationPrincipal JwtUserDetails userDetails){
+        System.out.println("Nome: " + clienteCreateDTO.getNome());
+        System.out.println("CPF: " + clienteCreateDTO.getCpf());
         Cliente cliente = ClienteMapper.toCliente(clienteCreateDTO);
         cliente.setUsuario(usuarioService.buscarPorId(userDetails.getId()));
 
