@@ -20,4 +20,10 @@ public class Cliente implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "nome", nullable = false, length = 100)
+    private String nome;
+
+    @Column(name = "cpf", nullable = false, unique = true, length = 11)
+    private String cpf;
 }
