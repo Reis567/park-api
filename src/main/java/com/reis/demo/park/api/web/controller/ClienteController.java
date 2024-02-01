@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reis.demo.park.api.config.jwt.JwtUserDetails;
 import com.reis.demo.park.api.entity.Cliente;
 import com.reis.demo.park.api.service.ClienteService;
+import com.reis.demo.park.api.service.UsuarioService;
 import com.reis.demo.park.api.web.dto.ClienteCreateDTO;
 import com.reis.demo.park.api.web.dto.ClienteResponseDTO;
 import com.reis.demo.park.api.web.dto.mapper.ClienteMapper;
@@ -21,9 +22,10 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/v1/clientes")
 public class ClienteController {
     private final ClienteService clienteService;
+    private final UsuarioService usuarioService;
     
-    public ResponseEntity<ClienteResponseDTO> create(@RequestBody @Valid ClienteCreateDTO clienteCreateDTO){
+    public ResponseEntity<ClienteResponseDTO> create(@RequestBody @Valid ClienteCreateDTO clienteCreateDTO, @AuthenticationPrincipal JwtUserDetails userDetails){
         Cliente cliente = ClienteMapper.toCliente(clienteCreateDTO);
-
+        cliente.setUsuario(usuarioService.buscarPorId(userDetails.getId()));
     }
 }
