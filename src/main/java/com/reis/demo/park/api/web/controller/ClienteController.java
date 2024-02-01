@@ -2,7 +2,9 @@ package com.reis.demo.park.api.web.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +27,8 @@ public class ClienteController {
     private final ClienteService clienteService;
     private final UsuarioService usuarioService;
     
+    @PostMapping
+    @PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<ClienteResponseDTO> create(@RequestBody @Valid ClienteCreateDTO clienteCreateDTO, @AuthenticationPrincipal JwtUserDetails userDetails){
         Cliente cliente = ClienteMapper.toCliente(clienteCreateDTO);
         cliente.setUsuario(usuarioService.buscarPorId(userDetails.getId()));
