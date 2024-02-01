@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.reis.demo.park.api.entity.Cliente;
+import com.reis.demo.park.api.exception.CpfUniqueViolationException;
 import com.reis.demo.park.api.repository.ClienteRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,9 @@ public class ClienteService {
     @Transactional
     public Cliente salvar (Cliente cliente){
         try {
-            clienteRepository.save(cliente);
+            return clienteRepository.save(cliente);
         } catch (org.springframework.dao.DataIntegrityViolationException ex) {
-            throw new CpfUniqueViolationException("");
+            throw new CpfUniqueViolationException(String.format("CPF '%s' não pode ser cadastrado , já existe ", cliente.getCpf()));
         }
     }
 }
