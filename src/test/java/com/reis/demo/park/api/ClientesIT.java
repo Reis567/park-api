@@ -11,8 +11,8 @@ import com.reis.demo.park.api.web.dto.ClienteCreateDTO;
 import com.reis.demo.park.api.web.dto.ClienteResponseDTO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "/resources/sql/usuarios/usuarios-insert.sql" ,executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(scripts = "/resources/sql/usuarios/usuarios-delete.sql" ,executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "/sql/clientes/clientes-insert.sql" ,executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/sql/clientes/clientes-delete.sql" ,executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class ClientesIT {
     
     @Autowired
@@ -24,8 +24,8 @@ public class ClientesIT {
         ClienteResponseDTO responseBody = testClient
             .post()
             .uri("/api/v1/clientes")
-            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
             .contentType(MediaType.APPLICATION_JSON)
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "TONY@gmail.com", "123456"))
             .bodyValue(new ClienteCreateDTO("Serginho blaublau","54006491492"))
             .exchange()
             .expectStatus().isCreated()
