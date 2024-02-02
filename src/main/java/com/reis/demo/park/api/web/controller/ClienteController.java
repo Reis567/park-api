@@ -38,7 +38,7 @@ public class ClienteController {
     private UsuarioService usuarioService;
     
 
-    @Operation(summary = "Criar novo cliente", description = "Recurso para criar um novo cliente vinculado a um usuário cadastrado.",
+    @Operation(summary = "Criar novo cliente", description = "Recurso para criar um novo cliente vinculado a um usuário cadastrado."+"Requisição exige um bearer Token , exclusivo para role 'CLIENTES'",
     responses = {
         @ApiResponse(responseCode = "201", description = "Recurso criado com sucesso ",
         content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ClienteResponseDTO.class))),
