@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 
 import com.reis.demo.park.api.web.dto.ClienteCreateDTO;
 import com.reis.demo.park.api.web.dto.ClienteResponseDTO;
+import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(scripts = "/sql/clientes/clientes-insert.sql" ,executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -36,5 +37,23 @@ public class ClientesIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getNome()).isEqualTo("Serginho blaublau");
         org.assertj.core.api.Assertions.assertThat(responseBody.getCpf()).isEqualTo("54006491492");
+    }
+
+
+    @Test
+    public void createCliente_ComPermissaoAdmin_RetornaErro403() {
+
+        ErrorMessage responseBody = testClient
+            .post()
+            .uri("/api/v1/clientes")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new ClienteCreateDTO("Serginho blaublau","54006491492"))
+            .exchange()
+            .expectStatus().isForbidden()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();;
+            org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+            org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
     }
 }
