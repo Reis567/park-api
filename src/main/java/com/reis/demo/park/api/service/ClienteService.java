@@ -1,5 +1,7 @@
 package com.reis.demo.park.api.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,5 +29,10 @@ public class ClienteService {
             log.error("Erro ao salvar cliente. Motivo: {}", ex.getMessage());
             throw new CpfUniqueViolationException(String.format("CPF '%s' não pode ser cadastrado, já existe", cliente.getCpf()));
         }
+    }
+    @Transactional(readOnly = true)
+    public Optional<Cliente> buscarPorId(Long id) {
+        log.info("Buscando cliente por ID: {}", id);
+        return clienteRepository.findById(id);
     }
 }
