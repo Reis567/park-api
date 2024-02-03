@@ -27,6 +27,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -63,6 +64,14 @@ public class ClienteController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ClienteMapper.toDTO(cliente));
     }
+
+    @Operation(summary = "Buscar cliente por ID", description = "Recupera informações de um cliente específico por ID.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso.",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ClienteResponseDTO.class))),
+        @ApiResponse(responseCode = "404", description = "Cliente não encontrado.",
+            content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
+    })
     @GetMapping("/{clienteId}")
     public ResponseEntity<?> buscarPorId(@PathVariable Long clienteId) {
         try {
