@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import com.reis.demo.park.api.web.dto.ClienteCreateDTO;
@@ -56,4 +57,22 @@ public class ClientesIT {
             org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
             org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
     }
+
+    @Test
+    public void createCliente_ComCPFDuplicado_RetornaErro409() {
+        ErrorMessage responseBody = testClient
+            .post()
+            .uri("/api/v1/clientes")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "TONY@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new ClienteCreateDTO("Fernandinho Beiramar", "59575966392"))
+            .exchange()
+            .expectStatus().isEqualTo(HttpStatus.CONFLICT)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(409);
+    }
+
 }
