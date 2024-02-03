@@ -143,6 +143,20 @@ public class ClientesIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getCpf()).isEqualTo("59575966392");
         
     }
+    @Test
+    public void getClientePorId_ClienteNaoEncontrado_RetornaErro404() {
+        ErrorMessage responseBody = testClient
+            .get()
+            .uri("/api/v1/clientes/999") 
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+            .exchange()
+            .expectStatus().isNotFound()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+    }
 
 
 }

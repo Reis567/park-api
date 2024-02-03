@@ -3,6 +3,7 @@ package com.reis.demo.park.api.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -74,13 +75,10 @@ public class ClienteController {
     })
     @GetMapping("/{clienteId}")
     public ResponseEntity<?> buscarPorId(@PathVariable Long clienteId) {
-        try {
             Cliente cliente = clienteService.buscarPorId(clienteId);
             ClienteResponseDTO responseDTO = ClienteMapper.toDTO(cliente);
             return ResponseEntity.ok(responseDTO);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado!");
-        }
+        
     }
 
     }
