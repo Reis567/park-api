@@ -1,10 +1,13 @@
 package com.reis.demo.park.api.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.reis.demo.park.api.config.jwt.JwtUserDetails;
 import com.reis.demo.park.api.entity.Cliente;
+import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.service.ClienteService;
 import com.reis.demo.park.api.service.UsuarioService;
 import com.reis.demo.park.api.web.dto.ClienteCreateDTO;
@@ -59,4 +63,15 @@ public class ClienteController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ClienteMapper.toDTO(cliente));
     }
-}
+    @GetMapping("/{clienteId}")
+    public ResponseEntity<?> buscarPorId(@PathVariable Long clienteId) {
+        try {
+            Cliente cliente = clienteService.buscarPorId(clienteId);
+            ClienteResponseDTO responseDTO = ClienteMapper.toDTO(cliente);
+            return ResponseEntity.ok(responseDTO);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente não encontrado!");
+        }
+    }
+
+    }

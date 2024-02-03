@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.reis.demo.park.api.entity.Cliente;
 import com.reis.demo.park.api.exception.CpfUniqueViolationException;
+import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.repository.ClienteRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -31,8 +32,9 @@ public class ClienteService {
         }
     }
     @Transactional(readOnly = true)
-    public Optional<Cliente> buscarPorId(Long id) {
+    public Cliente buscarPorId(Long id) {
         log.info("Buscando cliente por ID: {}", id);
-        return clienteRepository.findById(id);
+        return clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + id));
     }
 }
