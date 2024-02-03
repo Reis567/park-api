@@ -126,6 +126,23 @@ public class ClientesIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
     }
+    @Test
+    public void getClientePorId_ComDadosValidos_RetornaClienteStatus200() {
+        ClienteResponseDTO responseBody = testClient
+            .get()
+            .uri("/api/v1/clientes/10") 
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(ClienteResponseDTO.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isEqualTo(10L);  
+        org.assertj.core.api.Assertions.assertThat(responseBody.getNome()).isEqualTo("Fernandinho Beiramar");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getCpf()).isEqualTo("59575966392");
+        
+    }
 
 
 }
