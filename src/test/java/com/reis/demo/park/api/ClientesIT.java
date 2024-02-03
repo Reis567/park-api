@@ -75,6 +75,24 @@ public class ClientesIT {
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(409);
     }
 
+    
+    @Test
+    public void createCliente_ComCPFInvalido_RetornaErro422() {
+        ErrorMessage responseBody = testClient
+            .post()
+            .uri("/api/v1/clientes")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "TONY@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new ClienteCreateDTO("Fernandinho Beiramar", "59575966392"))
+            .exchange()
+            .expectStatus().isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(422);
+    }
+
     @Test
     public void createCliente_ComCPFInvalidoLongo_RetornaErro422() {
         ErrorMessage responseBody = testClient
