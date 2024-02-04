@@ -3,7 +3,7 @@ package com.reis.demo.park.api.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,9 +41,9 @@ public class ClienteService {
     }
 
     @Transactional(readOnly = true)
-    public List<Cliente> buscarTodos(Pageable pageable) {
+    public Page<Cliente> buscarTodos(Pageable pageable) {
         log.info("Buscando todos os clientes");
-        return clienteRepository.findAll();
+        return clienteRepository.findAll(pageable);
         
     }
 }

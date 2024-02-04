@@ -21,9 +21,4 @@ public class ClienteMapper {
     public static ClienteResponseDTO toDTO(Cliente cliente){
         return new ModelMapper().map(cliente, ClienteResponseDTO.class);
     }
-    public static List<ClienteResponseDTO> toDTOList(List<Cliente> clientes) {
-        return clientes.stream()
-                .map(ClienteMapper::toDTO)
-                .collect(Collectors.toList());
-    }
 }

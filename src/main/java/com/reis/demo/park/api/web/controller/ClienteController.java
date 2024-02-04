@@ -1,10 +1,10 @@
 package com.reis.demo.park.api.web.controller;
 
 import java.util.List;
-
-import org.springdoc.core.converters.models.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -95,14 +95,13 @@ public class ClienteController {
     })
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<ClienteResponseDTO>> GetAll(Pageable pageable) {
-        List<Cliente> clientes = clienteService.buscarTodos(pageable);
+    public ResponseEntity<Page<Cliente>> GetAll(Pageable pageable) {
+        Page<Cliente> clientes = clienteService.buscarTodos(pageable);
         if (clientes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        List<ClienteResponseDTO> responseDTOs = ClienteMapper.toDTOList(clientes);
-        return ResponseEntity.ok(responseDTOs);
+        return ResponseEntity.ok(clientes);
     }
 
     }
