@@ -1,5 +1,7 @@
 package com.reis.demo.park.api;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -156,6 +158,20 @@ public class ClientesIT {
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
+    }
+
+    @Test
+    public void getAllClientes_ComPermissaoAdmin_RetornaListaDeClientes() {
+        List<ClienteResponseDTO> responseDTOs = testClient
+                .get()
+                .uri("/api/v1/clientes")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(ClienteResponseDTO.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseDTOs).isNotEmpty();
     }
 
 
