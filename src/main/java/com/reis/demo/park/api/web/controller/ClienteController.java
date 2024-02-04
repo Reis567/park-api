@@ -82,6 +82,14 @@ public class ClienteController {
             return ResponseEntity.ok(responseDTO);
         
     }
+    @Operation(summary = "Buscar todos os clientes", description = "Recupera informações de todos os clientes cadastrados.")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Lista de clientes encontrada com sucesso.",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = List.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhum cliente encontrado."),
+        @ApiResponse(responseCode = "403", description = "Recurso não permitido ao perfil ADMIN",
+            content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
+    })
     @GetMapping
     public ResponseEntity<List<ClienteResponseDTO>> buscarTodos() {
         List<Cliente> clientes = clienteService.buscarTodos();
