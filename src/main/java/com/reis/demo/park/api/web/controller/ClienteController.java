@@ -75,6 +75,7 @@ public class ClienteController {
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado.",
             content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
     })
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{clienteId}")
     public ResponseEntity<?> GetById(@PathVariable Long clienteId) {
             Cliente cliente = clienteService.buscarPorId(clienteId);
