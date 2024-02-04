@@ -76,7 +76,7 @@ public class ClienteController {
             content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
     })
     @GetMapping("/{clienteId}")
-    public ResponseEntity<?> buscarPorId(@PathVariable Long clienteId) {
+    public ResponseEntity<?> GetById(@PathVariable Long clienteId) {
             Cliente cliente = clienteService.buscarPorId(clienteId);
             ClienteResponseDTO responseDTO = ClienteMapper.toDTO(cliente);
             return ResponseEntity.ok(responseDTO);
@@ -92,7 +92,7 @@ public class ClienteController {
     })
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<ClienteResponseDTO>> buscarTodos() {
+    public ResponseEntity<List<ClienteResponseDTO>> GetAll() {
         List<Cliente> clientes = clienteService.buscarTodos();
         if (clientes.isEmpty()) {
             return ResponseEntity.noContent().build();
