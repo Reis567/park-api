@@ -79,11 +79,10 @@ public class ClienteController {
     })
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{clienteId}")
-    public ResponseEntity<?> GetById(@PathVariable Long clienteId) {
+    public ResponseEntity<ClienteResponseDTO> GetById(@PathVariable Long clienteId) {
             Cliente cliente = clienteService.buscarPorId(clienteId);
             ClienteResponseDTO responseDTO = ClienteMapper.toDTO(cliente);
             return ResponseEntity.ok(responseDTO);
-        
     }
     @Operation(summary = "Buscar todos os clientes", description = "Recupera informações de todos os clientes cadastrados.")
     @ApiResponses(value = {
