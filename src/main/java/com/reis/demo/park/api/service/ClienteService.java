@@ -1,5 +1,6 @@
 package com.reis.demo.park.api.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -36,5 +37,12 @@ public class ClienteService {
         log.info("Buscando cliente por ID: {}", id);
         return clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o ID: " + id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Cliente> buscarTodos() {
+        log.info("Buscando todos os clientes");
+        return clienteRepository.findAll();
+        
     }
 }
