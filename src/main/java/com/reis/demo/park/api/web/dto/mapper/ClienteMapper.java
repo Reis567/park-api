@@ -1,5 +1,8 @@
 package com.reis.demo.park.api.web.dto.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 
 import com.reis.demo.park.api.entity.Cliente;
@@ -17,5 +20,10 @@ public class ClienteMapper {
     }
     public static ClienteResponseDTO toDTO(Cliente cliente){
         return new ModelMapper().map(cliente, ClienteResponseDTO.class);
+    }
+    public static List<ClienteResponseDTO> toDTOList(List<Cliente> clientes) {
+        return clientes.stream()
+                .map(ClienteMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

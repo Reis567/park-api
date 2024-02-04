@@ -1,5 +1,7 @@
 package com.reis.demo.park.api.web.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -79,6 +81,16 @@ public class ClienteController {
             ClienteResponseDTO responseDTO = ClienteMapper.toDTO(cliente);
             return ResponseEntity.ok(responseDTO);
         
+    }
+    @GetMapping
+    public ResponseEntity<List<ClienteResponseDTO>> buscarTodos() {
+        List<Cliente> clientes = clienteService.buscarTodos();
+        if (clientes.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        List<ClienteResponseDTO> responseDTOs = ClienteMapper.toDTOList(clientes);
+        return ResponseEntity.ok(responseDTOs);
     }
 
     }
