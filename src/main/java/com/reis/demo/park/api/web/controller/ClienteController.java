@@ -73,7 +73,9 @@ public class ClienteController {
         @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso.",
             content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ClienteResponseDTO.class))),
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado.",
-            content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
+            content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class))),
+        @ApiResponse(responseCode = "403", description = "Recurso não permitido ao perfil CLIENTE",
+                content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
     })
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{clienteId}")
