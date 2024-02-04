@@ -85,7 +85,7 @@ public class ClientesIT {
             .uri("/api/v1/clientes")
             .headers(JwtAuthentication.getHeaderAuthorization(testClient, "TONY@gmail.com", "123456"))
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(new ClienteCreateDTO("Fernandinho Beiramar", "59575966392"))
+            .bodyValue(new ClienteCreateDTO("Fernandinho Beiramar", "59575966391"))
             .exchange()
             .expectStatus().isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY)
             .expectBody(ErrorMessage.class)
@@ -133,7 +133,7 @@ public class ClientesIT {
         ClienteResponseDTO responseBody = testClient
             .get()
             .uri("/api/v1/clientes/10") 
-            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
             .exchange()
             .expectStatus().isOk()
             .expectBody(ClienteResponseDTO.class)
@@ -150,7 +150,7 @@ public class ClientesIT {
         ErrorMessage responseBody = testClient
             .get()
             .uri("/api/v1/clientes/999") 
-            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
             .exchange()
             .expectStatus().isNotFound()
             .expectBody(ErrorMessage.class)
@@ -159,6 +159,21 @@ public class ClientesIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
         org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(404);
     }
+    @Test
+    public void getClientePorId_ComPerfilDeCliente_RetornaErro403() {
+        ErrorMessage responseBody = testClient
+            .get()
+            .uri("/api/v1/clientes/10") 
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+            .exchange()
+            .expectStatus().isForbidden()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
+    }
+
 
     @Test
     public void getAllClientes_ComPermissaoAdmin_RetornaListaDeClientes() {
