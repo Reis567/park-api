@@ -11,6 +11,7 @@ import com.reis.demo.park.api.entity.Cliente;
 import com.reis.demo.park.api.exception.CpfUniqueViolationException;
 import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.repository.ClienteRepository;
+import com.reis.demo.park.api.repository.projection.ClienteProjection;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +42,9 @@ public class ClienteService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Cliente> buscarTodos(Pageable pageable) {
+    public Page<ClienteProjection> buscarTodos(Pageable pageable) {
         log.info("Buscando todos os clientes");
-        return clienteRepository.findAll(pageable);
+        return clienteRepository.findAllPageable(pageable);
         
     }
 }
