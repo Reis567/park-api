@@ -20,11 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.reis.demo.park.api.config.jwt.JwtUserDetails;
 import com.reis.demo.park.api.entity.Cliente;
 import com.reis.demo.park.api.exception.EntityNotFoundException;
+import com.reis.demo.park.api.repository.projection.ClienteProjection;
 import com.reis.demo.park.api.service.ClienteService;
 import com.reis.demo.park.api.service.UsuarioService;
 import com.reis.demo.park.api.web.dto.ClienteCreateDTO;
 import com.reis.demo.park.api.web.dto.ClienteResponseDTO;
+import com.reis.demo.park.api.web.dto.PageableDTO;
 import com.reis.demo.park.api.web.dto.mapper.ClienteMapper;
+import com.reis.demo.park.api.web.dto.mapper.PageableMapper;
 import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -95,13 +98,13 @@ public class ClienteController {
     })
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<Cliente>> GetAll(Pageable pageable) {
-        Page<Cliente> clientes = clienteService.buscarTodos(pageable);
+    public ResponseEntity<PageableDTO> GetAll(Pageable pageable) {
+        Page<ClienteProjection> clientes = clienteService.buscarTodos(pageable);
         if (clientes.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(clientes);
+        return ResponseEntity.ok(PageableMapper.toDTO(clientes));
     }
 
     }
