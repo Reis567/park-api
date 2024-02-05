@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.data.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +30,9 @@ import com.reis.demo.park.api.web.dto.mapper.PageableMapper;
 import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -88,14 +90,37 @@ public class ClienteController {
             ClienteResponseDTO responseDTO = ClienteMapper.toDTO(cliente);
             return ResponseEntity.ok(responseDTO);
     }
-    @Operation(summary = "Buscar todos os clientes", description = "Recupera informações de todos os clientes cadastrados.")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Lista de clientes encontrada com sucesso.",
-            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = List.class))),
-        @ApiResponse(responseCode = "204", description = "Nenhum cliente encontrado."),
-        @ApiResponse(responseCode = "403", description = "Recurso não permitido ao perfil CLIENTE",
-            content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ErrorMessage.class)))
-    })
+@Operation(
+    summary = "Buscar todos os clientes",
+    description = "Recupera informações de todos os clientes cadastrados."
+)
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Lista de clientes encontrada com sucesso.",
+        content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = List.class))),
+    @ApiResponse(responseCode = "204", description = "Nenhum cliente encontrado."),
+    @ApiResponse(responseCode = "403", description = "Recurso não permitido ao perfil CLIENTE",
+        content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class)))
+})
+@Parameters({
+    @Parameter(
+        name = "page",
+        description = "Número da página a ser recuperada (começando do zero).",
+        in = ParameterIn.QUERY,
+        schema = @Schema(type = "integer", defaultValue = "0")
+    ),
+    @Parameter(
+        name = "size",
+        description = "Número de elementos por página.",
+        in = ParameterIn.QUERY,
+        schema = @Schema(type = "integer", defaultValue = "20")
+    ),
+    @Parameter(
+        name = "sort",
+        description = "Ordenação dos resultados (ex: `campo,asc` ou `campo,desc`).",
+        in = ParameterIn.QUERY,
+        schema = @Schema(type = "string")
+    )
+})
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageableDTO> GetAll(Pageable pageable) {
