@@ -139,9 +139,18 @@ public class ClienteController {
         return ResponseEntity.ok(PageableMapper.toDTO(clientes));
     }
 
-    }
 
-
+    @Operation(
+        summary = "Obter detalhes do cliente logado",
+        description = "Recupera informações detalhadas do cliente atualmente autenticado.",
+        security = @SecurityRequirement(name = "security")
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Detalhes do cliente encontrados com sucesso.",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ClienteResponseDTO.class))),
+        @ApiResponse(responseCode = "403", description = "Recurso não permitido ao perfil ADMIN",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class)))
+    })
     @GetMapping("/detalhes")
     @PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<ClienteResponseDTO> GetDetail(@AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
