@@ -10,7 +10,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Entity
 @Table(name="vagas")
 @EntityListeners(AuditingEntityListener.class)
@@ -47,6 +49,31 @@ public class Vaga implements Serializable{
     @LastModifiedBy
     @Column(name = "modificado_por")
     private String modificadoPor;
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((Id == null) ? 0 : Id.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vaga other = (Vaga) obj;
+        if (Id == null) {
+            if (other.Id != null)
+                return false;
+        } else if (!Id.equals(other.Id))
+            return false;
+        return true;
+    }
 
     
 }
