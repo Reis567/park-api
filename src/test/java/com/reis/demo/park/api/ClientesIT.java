@@ -218,5 +218,20 @@ public class ClientesIT {
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
     }
 
+    @Test
+    public void getClienteDetalhes_ComPermissaoAdmin_RetornaErro403() {
+        ErrorMessage responseBody = testClient
+                .get()
+                .uri("/api/v1/clientes/detalhes")
+                .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
+                .exchange()
+                .expectStatus().isForbidden()
+                .expectBody(ErrorMessage.class)
+                .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getStatus()).isEqualTo(403);
+    }
+
 
 }
