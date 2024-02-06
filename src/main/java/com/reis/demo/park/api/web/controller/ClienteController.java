@@ -37,6 +37,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -52,7 +53,9 @@ public class ClienteController {
     private UsuarioService usuarioService;
     
 
-    @Operation(summary = "Criar novo cliente", description = "Recurso para criar um novo cliente vinculado a um usuário cadastrado."+"Requisição exige um bearer Token , exclusivo para role 'CLIENTES'",
+    @Operation(summary = "Criar novo cliente", 
+    description = "Recurso para criar um novo cliente vinculado a um usuário cadastrado."+"Requisição exige um bearer Token , exclusivo para role 'CLIENTES'",
+    security = @SecurityRequirement(name = "security"),
     responses = {
         @ApiResponse(responseCode = "201", description = "Recurso criado com sucesso ",
         content = @Content(mediaType = "application/json;charset=UTF-8",schema = @Schema(implementation = ClienteResponseDTO.class))),
@@ -74,7 +77,9 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ClienteMapper.toDTO(cliente));
     }
 
-    @Operation(summary = "Buscar cliente por ID", description = "Recupera informações de um cliente específico por ID.")
+    @Operation(summary = "Buscar cliente por ID", 
+    description = "Recupera informações de um cliente específico por ID.",
+    security = @SecurityRequirement(name = "security"))
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Cliente encontrado com sucesso.",
             content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ClienteResponseDTO.class))),
@@ -92,7 +97,8 @@ public class ClienteController {
     }
 @Operation(
     summary = "Buscar todos os clientes",
-    description = "Recupera informações de todos os clientes cadastrados."
+    description = "Recupera informações de todos os clientes cadastrados.",
+    security = @SecurityRequirement(name = "security")
 )
 @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Lista de clientes encontrada com sucesso.",
