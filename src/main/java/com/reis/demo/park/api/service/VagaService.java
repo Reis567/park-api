@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.reis.demo.park.api.entity.Vaga;
+import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.repository.VagaRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,13 @@ public class VagaService {
             log.error("Erro ao criar vaga. Motivo: {}", ex.getMessage());
             throw new Exception(String.format("Erro ao criar vaga. Motivo: '%s'", ex.getMessage()));
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Vaga buscarPorCodigo(String codigo) {
+        log.info("Buscando vaga por código: {}", codigo);
+        return vagaRepository.findByCodigo(codigo)
+                .orElseThrow(() -> new EntityNotFoundException("Vaga não encontrada com o código: " + codigo));
     }
     
 }
