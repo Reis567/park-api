@@ -216,6 +216,10 @@ public class ClientesIT {
                 .returnResult().getResponseBody();
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getCpf()).isEqualTo("59575966392");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getNome()).isEqualTo("Fernandinho Beiramar");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getId()).isEqualTo(10);
+        
     }
 
     @Test
