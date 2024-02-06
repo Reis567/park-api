@@ -140,3 +140,12 @@ public class ClienteController {
     }
 
     }
+
+
+    @GetMapping("/detalhes")
+    @PreAuthorize("hasRole('CLIENTE')")
+    public ResponseEntity<ClienteResponseDTO> GetDetail(@AuthenticationPrincipal JwtUserDetails jwtUserDetails) {
+
+    }
+
+    }
