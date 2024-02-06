@@ -2,6 +2,7 @@ package com.reis.demo.park.api.web.controller;
 
 import java.util.List;
 import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -118,7 +119,7 @@ public class ClienteController {
         name = "size",
         description = "Número de elementos por página.",
         in = ParameterIn.QUERY,
-        schema = @Schema(type = "integer", defaultValue = "20")
+        schema = @Schema(type = "integer", defaultValue = "5")
     ),
     @Parameter(
         name = "sort",hidden = true,
@@ -129,7 +130,7 @@ public class ClienteController {
 })
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<PageableDTO> GetAll(@Parameter(hidden = true) Pageable pageable) {
+    public ResponseEntity<PageableDTO> GetAll(@Parameter(hidden = true)@PageableDefault(size = 5, sort = {"nome"}) Pageable pageable) {
         Page<ClienteProjection> clientes = clienteService.buscarTodos(pageable);
         if (clientes.isEmpty()) {
             return ResponseEntity.noContent().build();
