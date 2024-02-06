@@ -115,15 +115,15 @@ public class ClienteController {
         schema = @Schema(type = "integer", defaultValue = "20")
     ),
     @Parameter(
-        name = "sort",
+        name = "sort",hidden = true,
         description = "Ordenação dos resultados (ex: `campo,asc` ou `campo,desc`).",
         in = ParameterIn.QUERY,
-        schema = @Schema(type = "string")
+        schema = @Schema(type = "string",defaultValue = "id,asc")
     )
 })
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<PageableDTO> GetAll(Pageable pageable) {
+    public ResponseEntity<PageableDTO> GetAll(@Parameter(hidden = true) Pageable pageable) {
         Page<ClienteProjection> clientes = clienteService.buscarTodos(pageable);
         if (clientes.isEmpty()) {
             return ResponseEntity.noContent().build();
