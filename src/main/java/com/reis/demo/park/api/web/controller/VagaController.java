@@ -17,7 +17,13 @@ import com.reis.demo.park.api.service.VagaService;
 import com.reis.demo.park.api.web.dto.VagaCreateDTO;
 import com.reis.demo.park.api.web.dto.VagaResponseDTO;
 import com.reis.demo.park.api.web.dto.mapper.VagaMapper;
+import com.reis.demo.park.api.web.exception.ErrorMessage;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +38,19 @@ public class VagaController {
     @Autowired
     private VagaService vagaService;
 
+    @Operation(
+    summary = "Criar nova vaga",
+    description = "Recurso para criar uma nova vaga de estacionamento.",
+    security = @SecurityRequirement(name = "security"),
+    responses = {
+        @ApiResponse(responseCode = "201", description = "Vaga criada com sucesso.",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = VagaResponseDTO.class))),
+        @ApiResponse(responseCode = "409", description = "Código de vaga já existe no sistema.",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class))),
+        @ApiResponse(responseCode = "422", description = "Recurso não processado por falta de dados ou dados inválidos.",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class)))
+    }
+)
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<VagaResponseDTO> create(@RequestBody @Valid VagaCreateDTO vagaCreateDTO) throws Exception {
