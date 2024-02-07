@@ -61,6 +61,20 @@ public class VagaController {
         
     }
 
+
+    @Operation(
+    summary = "Buscar vaga por código",
+    description = "Recupera informações de uma vaga específica por código.",
+    security = @SecurityRequirement(name = "security"),
+    responses = {
+        @ApiResponse(responseCode = "200", description = "Vaga encontrada com sucesso.",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = VagaResponseDTO.class))),
+        @ApiResponse(responseCode = "404", description = "Vaga não encontrada.",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class))),
+        @ApiResponse(responseCode = "403", description = "Recurso não permitido ao perfil ADMIN",
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class)))
+    }
+)
     @GetMapping("/{codigo}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<VagaResponseDTO> getByCodigo(@PathVariable String codigo) {
