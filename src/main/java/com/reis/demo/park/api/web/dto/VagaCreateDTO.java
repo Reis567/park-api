@@ -17,5 +17,6 @@ public class VagaCreateDTO {
     private String codigo;
 
     @NotNull
+    @Pattern(regexp = "LIVRE|OCUPADA")
     private Vaga.StatusVaga status;
 }
