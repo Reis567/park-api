@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.reis.demo.park.api.exception.CodigoUniqueViolationException;
 import com.reis.demo.park.api.exception.CpfUniqueViolationException;
 import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.exception.PasswordConfException;
@@ -22,38 +23,46 @@ import lombok.extern.slf4j.Slf4j;
 public class ApiExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(MethodArgumentNotValidException exception , HttpServletRequest request , BindingResult result){
+    public ResponseEntity<ErrorMessage> methodArgumentNotValidException(MethodArgumentNotValidException exception,
+            HttpServletRequest request, BindingResult result) {
 
-        log.error("Api error - " , exception);
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.UNPROCESSABLE_ENTITY, "Campos inválidos !", result ));
+        log.error("Api error - ", exception);
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, "Campos inválidos !", result));
     }
 
-    @ExceptionHandler({UsernameUniqueViolationException.class, CpfUniqueViolationException.class})
-    public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException exception , HttpServletRequest request ){
+    @ExceptionHandler({ UsernameUniqueViolationException.class, CpfUniqueViolationException.class,CodigoUniqueViolationException.class })
+    public ResponseEntity<ErrorMessage> uniqueViolationException(RuntimeException exception,
+            HttpServletRequest request) {
 
-        log.error("Api error - " , exception);
-        return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.CONFLICT, exception.getMessage()));
+        log.error("Api error - ", exception);
+        return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.CONFLICT, exception.getMessage()));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorMessage> entitNotFoundException(RuntimeException exception , HttpServletRequest request ){
+    public ResponseEntity<ErrorMessage> entitNotFoundException(RuntimeException exception, HttpServletRequest request) {
 
-        log.error("Api error - " , exception);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.NOT_FOUND, exception.getMessage()));
+        log.error("Api error - ", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, exception.getMessage()));
     }
-    
+
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorMessage> accessDeniedException(AccessDeniedException exception , HttpServletRequest request ){
+    public ResponseEntity<ErrorMessage> accessDeniedException(AccessDeniedException exception,
+            HttpServletRequest request) {
 
-        log.error("Api error - " , exception);
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request,HttpStatus.FORBIDDEN, exception.getMessage()));
+        log.error("Api error - ", exception);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessage(request, HttpStatus.FORBIDDEN, exception.getMessage()));
     }
+
     @ExceptionHandler(PasswordConfException.class)
-    public ResponseEntity<ErrorMessage> senhaNaoConfereException(PasswordConfException exception, HttpServletRequest request) {
+    public ResponseEntity<ErrorMessage> senhaNaoConfereException(PasswordConfException exception,
+            HttpServletRequest request) {
         log.error("Api error - ", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, exception.getMessage()));
     }
 
-    
 }
