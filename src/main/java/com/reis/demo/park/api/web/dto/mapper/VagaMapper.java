@@ -4,8 +4,7 @@ import com.reis.demo.park.api.web.dto.VagaCreateDTO;
 import com.reis.demo.park.api.web.dto.VagaResponseDTO;
 import org.modelmapper.ModelMapper;
 
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -21,9 +20,4 @@ public class VagaMapper {
         return new ModelMapper().map(vaga, VagaResponseDTO.class);
     }
 
-    public static List<VagaResponseDTO> toDTOList(List<Vaga> vagas) {
-        return vagas.stream()
-                .map(VagaMapper::toDTO)
-                .collect(Collectors.toList());
-    }
 }
