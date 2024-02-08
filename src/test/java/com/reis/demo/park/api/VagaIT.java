@@ -104,4 +104,18 @@ public class VagaIT {
 
         org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
     }
+    @Test
+    public void getByCodigo_VagaNaoEncontrada_RetornaStatus404() {
+        ErrorMessage errorMessage = testClient
+            .get()
+            .uri("/api/v1/vagas/VAGA_INEXISTENTE")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+            .exchange()
+            .expectStatus().isNotFound()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+    
+        org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(errorMessage.getStatus()).isEqualTo(404);
+    }
 }
