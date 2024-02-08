@@ -48,7 +48,9 @@ public class VagaController {
         @ApiResponse(responseCode = "409", description = "Código de vaga já existe no sistema.",
             content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class))),
         @ApiResponse(responseCode = "422", description = "Recurso não processado por falta de dados ou dados inválidos.",
-            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class)))
+            content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class))),
+            @ApiResponse(responseCode = "403", description = "Recurso não permitido ao perfil ADMIN",
+                content = @Content(mediaType = "application/json;charset=UTF-8", schema = @Schema(implementation = ErrorMessage.class)))
     }
 )
     @PostMapping
