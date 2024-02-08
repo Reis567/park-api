@@ -118,4 +118,18 @@ public class VagaIT {
         org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
         org.assertj.core.api.Assertions.assertThat(errorMessage.getStatus()).isEqualTo(404);
     }
+    @Test
+    public void getByCodigo_ComPerfilCliente_RetornaErroForbidden() {
+        ErrorMessage errorMessage = testClient
+            .get()
+            .uri("/api/v1/vagas/A-01")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "TONY@gmail.com", "123456"))
+            .exchange()
+            .expectStatus().isForbidden()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(errorMessage.getStatus()).isEqualTo(403);
+    }
 }
