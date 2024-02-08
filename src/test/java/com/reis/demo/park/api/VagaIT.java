@@ -91,4 +91,17 @@ public class VagaIT {
         org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
         org.assertj.core.api.Assertions.assertThat(errorMessage.getStatus()).isEqualTo(403);
     }
+    @Test
+    public void getByCodigo_VagaEncontrada_RetornaStatus200() {
+        VagaResponseDTO responseBody = testClient
+            .get()
+            .uri("/api/v1/vagas/A-01")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(VagaResponseDTO.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+    }
 }
