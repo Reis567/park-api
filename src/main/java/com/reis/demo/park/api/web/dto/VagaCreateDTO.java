@@ -2,6 +2,8 @@ package com.reis.demo.park.api.web.dto;
 
 import com.reis.demo.park.api.entity.Vaga;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -17,6 +19,6 @@ public class VagaCreateDTO {
     private String codigo;
 
     @NotNull
-    @Pattern(regexp = "LIVRE|OCUPADA")
+    @Enumerated(EnumType.STRING)
     private Vaga.StatusVaga status;
 }

@@ -19,7 +19,7 @@ public class VagaService {
     private final VagaRepository vagaRepository;
 
     @Transactional
-    public Vaga criarVaga(Vaga vaga) throws Exception {
+    public Vaga criarVaga(Vaga vaga){
         try {
             log.info("Criando vaga: {}", vaga);
             return vagaRepository.save(vaga);

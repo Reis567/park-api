@@ -53,7 +53,7 @@ public class VagaController {
 )
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<VagaResponseDTO> create(@RequestBody @Valid VagaCreateDTO vagaCreateDTO) throws Exception {
+    public ResponseEntity<VagaResponseDTO> create(@RequestBody @Valid VagaCreateDTO vagaCreateDTO) {
         Vaga vaga = VagaMapper.toVaga(vagaCreateDTO);
 
             vagaService.criarVaga(vaga);
