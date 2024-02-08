@@ -75,5 +75,20 @@ public class VagaIT {
         org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
         org.assertj.core.api.Assertions.assertThat(errorMessage.getStatus()).isEqualTo(422);
     }
-
+    @Test
+    public void createVaga_ComPerfilCliente_RetornaErroForbidden() {
+        ErrorMessage errorMessage = testClient
+            .post()
+            .uri("/api/v1/vagas")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new VagaCreateDTO("A-07", Vaga.StatusVaga.LIVRE))
+            .exchange()
+            .expectStatus().isForbidden()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+    
+        org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(errorMessage.getStatus()).isEqualTo(403);
+    }
 }
