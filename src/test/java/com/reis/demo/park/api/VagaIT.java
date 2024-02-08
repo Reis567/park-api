@@ -59,4 +59,21 @@ public class VagaIT {
         org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
         org.assertj.core.api.Assertions.assertThat(errorMessage.getStatus()).isEqualTo(409);
     }
+    @Test
+    public void createVaga_ComDadosInvalidos_RetornaErro422() {
+        ErrorMessage errorMessage = testClient
+            .post()
+            .uri("/api/v1/vagas")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new VagaCreateDTO("", Vaga.StatusVaga.LIVRE))
+            .exchange()
+            .expectStatus().isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(errorMessage.getStatus()).isEqualTo(422);
+    }
+
 }
