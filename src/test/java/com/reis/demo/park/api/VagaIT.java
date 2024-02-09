@@ -123,7 +123,7 @@ public class VagaIT {
         ErrorMessage errorMessage = testClient
             .get()
             .uri("/api/v1/vagas/A-01")
-            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "TONY@gmail.com", "123456"))
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
             .exchange()
             .expectStatus().isForbidden()
             .expectBody(ErrorMessage.class)
