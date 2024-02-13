@@ -1,0 +1,9 @@
+package com.reis.demo.park.api.web.dto.mapper;
+
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class ClienteVagaMapper {
+    
+}
