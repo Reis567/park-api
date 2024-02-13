@@ -13,6 +13,7 @@ public class EstacionamentoUtils {
         String recibo = date.toString().substring(0,19);
 
         return recibo.replace("-", "")
-                        .replace(":","");
+                        .replace(":","")
+                        .replace("T","");
     }
 }
