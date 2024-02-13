@@ -14,6 +14,6 @@ public class EstacionamentoUtils {
 
         return recibo.replace("-", "")
                         .replace(":","")
-                        .replace("T","");
+                        .replace("T","-");
     }
 }
