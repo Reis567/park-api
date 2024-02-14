@@ -1,6 +1,7 @@
 package com.reis.demo.park.api.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.reis.demo.park.api.entity.Cliente;
 import com.reis.demo.park.api.entity.ClienteVaga;
@@ -19,6 +20,7 @@ public class EstacionamentoService {
 
     private final VagaService vagaService;
 
+    @Transactional
     public ClienteVaga checkIn(ClienteVaga clienteVaga){
         Cliente cliente = clienteService.buscarPorCpf(clienteVaga.getCliente().getCpf());
     }
