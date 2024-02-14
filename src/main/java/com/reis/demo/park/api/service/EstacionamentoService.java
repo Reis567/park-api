@@ -26,6 +26,7 @@ public class EstacionamentoService {
         Cliente cliente = clienteService.buscarPorCpf(clienteVaga.getCliente().getCpf());
         clienteVaga.setCliente(cliente);
         Vaga vaga = vagaService.buscarPorVagaLivre();
+        vaga.setStatus(Vaga.StatusVaga.OCUPADA);
     }
     
 }
