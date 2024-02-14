@@ -39,7 +39,7 @@ public class VagaService {
 
     @Transactional(readOnly = true)
     public Vaga buscarPorVagaLivre() {
-
+        return vagaRepository.findFirstByStatus();
     }
 
 }
