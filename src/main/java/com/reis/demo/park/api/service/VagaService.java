@@ -19,13 +19,14 @@ public class VagaService {
     private final VagaRepository vagaRepository;
 
     @Transactional
-    public Vaga criarVaga(Vaga vaga){
+    public Vaga criarVaga(Vaga vaga) {
         try {
             log.info("Criando vaga: {}", vaga);
             return vagaRepository.save(vaga);
         } catch (DataIntegrityViolationException ex) {
             log.error("Erro ao criar vaga. Motivo: {}", ex.getMessage());
-            throw new CodigoUniqueViolationException(String.format("Erro ao criar vaga. Motivo: '%s'", ex.getMessage()));
+            throw new CodigoUniqueViolationException(
+                    String.format("Erro ao criar vaga. Motivo: '%s'", ex.getMessage()));
         }
     }
 
@@ -35,5 +36,10 @@ public class VagaService {
         return vagaRepository.findByCodigo(codigo)
                 .orElseThrow(() -> new EntityNotFoundException("Vaga não encontrada com o código: " + codigo));
     }
-    
+
+    @Transactional(readOnly = true)
+    public Vaga buscarPorVagaLivre() {
+
+    }
+
 }

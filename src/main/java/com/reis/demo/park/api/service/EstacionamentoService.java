@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.reis.demo.park.api.entity.Cliente;
 import com.reis.demo.park.api.entity.ClienteVaga;
+import com.reis.demo.park.api.entity.Vaga;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,8 @@ public class EstacionamentoService {
     @Transactional
     public ClienteVaga checkIn(ClienteVaga clienteVaga){
         Cliente cliente = clienteService.buscarPorCpf(clienteVaga.getCliente().getCpf());
+        clienteVaga.setCliente(cliente);
+        Vaga vaga = vagaService.buscarPorVagaLivre();
     }
     
 }
