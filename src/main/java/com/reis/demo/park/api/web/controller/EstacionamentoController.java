@@ -1,5 +1,6 @@
 package com.reis.demo.park.api.web.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,5 +34,6 @@ public class EstacionamentoController {
 
             EstacionamentoResponseDTO responseDTO = ClienteVagaMapper.toDTO(clienteVagaCheckIn);
 
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 }
