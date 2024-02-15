@@ -29,6 +29,6 @@ public class EstacionamentoController {
     public ResponseEntity<EstacionamentoResponseDTO> checkin(@RequestBody @Valid EstacionamentoCreateDTO estacionamentoCreateDTO){
             ClienteVaga clienteVaga = ClienteVagaMapper.toClienteVaga(estacionamentoCreateDTO);
 
-
+            ClienteVaga clienteVagaCheckIn = estacionamentoService.checkIn(clienteVaga);
     }
 }
