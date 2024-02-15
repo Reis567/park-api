@@ -30,5 +30,8 @@ public class EstacionamentoController {
             ClienteVaga clienteVaga = ClienteVagaMapper.toClienteVaga(estacionamentoCreateDTO);
 
             ClienteVaga clienteVagaCheckIn = estacionamentoService.checkIn(clienteVaga);
+
+            EstacionamentoResponseDTO responseDTO = ClienteVagaMapper.toDTO(clienteVagaCheckIn);
+
     }
 }
