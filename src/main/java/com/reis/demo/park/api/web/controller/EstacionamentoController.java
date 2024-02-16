@@ -16,7 +16,13 @@ import com.reis.demo.park.api.service.EstacionamentoService;
 import com.reis.demo.park.api.web.dto.EstacionamentoCreateDTO;
 import com.reis.demo.park.api.web.dto.EstacionamentoResponseDTO;
 import com.reis.demo.park.api.web.dto.mapper.ClienteVagaMapper;
+import com.reis.demo.park.api.web.exception.ErrorMessage;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +32,26 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/v1/estacionamentos")
 @RequiredArgsConstructor
 public class EstacionamentoController {
+
+
     private final EstacionamentoService estacionamentoService;
 
+
+    @Operation(
+    summary = "Realizar check-in no estacionamento",
+    security = @SecurityRequirement(name = "security"),
+    description = "Realiza o check-in de um cliente no estacionamento.",
+    responses = {
+        @ApiResponse(responseCode = "201", description = "Check-in realizado com sucesso.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstacionamentoResponseDTO.class))),
+        @ApiResponse(responseCode = "404", description = "Cliente não encontrado ou nenhuma vaga disponível.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+        @ApiResponse(responseCode = "422", description = "Problema nos dados enviados ou dados inválidos.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+        @ApiResponse(responseCode = "403", description = "Operação não permitida para o perfil cliente.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+    }
+)
     @PostMapping("/check-in")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EstacionamentoResponseDTO> checkin(@RequestBody @Valid EstacionamentoCreateDTO estacionamentoCreateDTO){
