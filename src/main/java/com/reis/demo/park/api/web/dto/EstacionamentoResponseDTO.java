@@ -33,6 +33,7 @@ public class EstacionamentoResponseDTO {
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime dataEntrada;
     
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime dataSaida;
 
     private String vagaCodigo;
