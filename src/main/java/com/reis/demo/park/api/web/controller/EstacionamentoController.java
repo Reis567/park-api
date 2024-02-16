@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name="Estacionamentos", description = "")
+@Tag(name="Estacionamentos", description = "Contém todas as operações relativas ao estacionamento ")
 @RestController
 @RequestMapping("api/v1/estacionamentos")
 @RequiredArgsConstructor
