@@ -33,7 +33,7 @@ public class EstacionamentoService {
         clienteVaga.setVaga(vaga);
 
         clienteVaga.setDataEntrada(LocalDateTime.now());
-        clienteVaga.setRebibo(EstacionamentoUtils.gerarRecibo());
+        clienteVaga.setRecibo(EstacionamentoUtils.gerarRecibo());
 
         return clienteVagaService.salvar(clienteVaga);
     }

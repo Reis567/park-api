@@ -39,7 +39,7 @@ public class EstacionamentoController {
 
             URI location = ServletUriComponentsBuilder
                             .fromCurrentRequestUri().path("/{recibo}")
-                            .buildAndExpand(clienteVaga.getRebibo())
+                            .buildAndExpand(clienteVaga.getRecibo())
                             .toUri();
 
             return ResponseEntity.status(HttpStatus.CREATED).location(location).body(responseDTO);
