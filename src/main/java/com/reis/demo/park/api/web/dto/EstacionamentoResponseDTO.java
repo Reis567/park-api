@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -28,6 +30,7 @@ public class EstacionamentoResponseDTO {
 
     private String recibo;
 
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime dataEntrada;
     
     private LocalDateTime dataSaida;
