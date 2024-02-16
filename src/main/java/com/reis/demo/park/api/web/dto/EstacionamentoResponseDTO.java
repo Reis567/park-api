@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -14,6 +15,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EstacionamentoResponseDTO {
     
     private String placa;
