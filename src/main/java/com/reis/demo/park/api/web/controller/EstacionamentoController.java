@@ -19,6 +19,7 @@ import com.reis.demo.park.api.web.dto.mapper.ClienteVagaMapper;
 import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -42,7 +43,8 @@ public class EstacionamentoController {
     security = @SecurityRequirement(name = "security"),
     description = "Realiza o check-in de um cliente no estacionamento.",
     responses = {
-        @ApiResponse(responseCode = "201", description = "Check-in realizado com sucesso.",
+         @ApiResponse(responseCode = "201", description = "Check-in realizado com sucesso.",
+            headers = @Header(name = "Location", description = "URI do recurso criado.", schema = @Schema(type = "string")),
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstacionamentoResponseDTO.class))),
         @ApiResponse(responseCode = "404", description = "Cliente não encontrado ou nenhuma vaga disponível.",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
