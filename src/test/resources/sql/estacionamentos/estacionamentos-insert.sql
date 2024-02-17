@@ -16,11 +16,11 @@ insert into VAGAS(id, codigo,status) VALUES (500,'A-05', 'LIVRE');
 
 
 -- Caso 1: Cliente 10 estaciona na vaga 10
-insert into CLIENTES_TEM_VAGAS(numero_recibo, placa, modelo, cor, data_entrada, id_cliente, id_vaga)
+insert into CLIENTES_TEM_VAGAS(numero_recibo,placa, marca, modelo, cor, data_entrada, id_cliente, id_vaga)
 values ('20230313-101301', 'GOL1234', 'VW', 'Gol', 'BRANCO', '2023-03-11 11:30:00',22,100);
 
 -- Caso 2: Cliente 20 estaciona na vaga 20
-insert into CLIENTES_TEM_VAGAS(numero_recibo, placa, modelo, cor, data_entrada, id_cliente, id_vaga)
-values ('20230313-101302', 'CIVIC987', 'HONDA', 'Civic', 'PRATA', '2023-03-12 12:45:00',21,200);
+insert into CLIENTES_TEM_VAGAS(numero_recibo, placa, marca, modelo, cor, data_entrada, id_cliente, id_vaga)
+values ('20230313-101302', 'CIVI2987', 'HONDA', 'Civic', 'PRATA', '2023-03-12 12:45:00',21,200);
 
-insert into CLIENTES_TEM_VAGAS(numero_recibo, placa, modelo , cor, data_entrada, id_cliente, id_vaga) values('20230313-101300','FIT2A69', 'FIAT', 'PALIO', 'AZUL', '2023-03-10 10:15:00',22,300);
+insert into CLIENTES_TEM_VAGAS(numero_recibo, placa, marca, modelo , cor, data_entrada, id_cliente, id_vaga) values('20230313-101300','FIT2A69', 'FIAT', 'PALIO', 'AZUL', '2023-03-10 10:15:00',22,300);

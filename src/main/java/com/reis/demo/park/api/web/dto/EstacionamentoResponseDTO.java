@@ -32,12 +32,12 @@ public class EstacionamentoResponseDTO {
 
     private String recibo;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataEntrada;
     
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataSaida;
-
+    
     private String vagaCodigo;
 
     private BigDecimal valor;
