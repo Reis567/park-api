@@ -35,5 +35,14 @@ public void checkin_ComDadosValidos_RetornaCheckinComStatus201ELocation() {
     org.assertj.core.api.Assertions.assertThat(responseBody.getRecibo()).isNotNull();
     org.assertj.core.api.Assertions.assertThat(responseBody.getPlaca()).isEqualTo("ABC1234");
 
+    // Verifica se o header "Location" está presente
+    testClient
+        .post()
+        .uri("/api/v1/estacionamentos/check-in")
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+        .contentType(MediaType.APPLICATION_JSON)
+        .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "ModeloCarro", "CorCarro", "17526942360"))
+        .exchange()
+        .expectHeader().exists("Location");
 }
 }
