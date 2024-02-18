@@ -54,7 +54,7 @@ public void checkin_ComClienteNaoEncontradoOuSemVaga_RetornaStatus422() {
             .uri("/api/v1/estacionamentos/check-in")
             .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "ModeloCarro", "CorCarro", "1752942360"))
+            .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "ModeloCarro", "CorCarro", "1752942361"))
             .exchange()
             .expectStatus().isEqualTo(422)
             .expectBody(ErrorMessage.class)
@@ -62,4 +62,22 @@ public void checkin_ComClienteNaoEncontradoOuSemVaga_RetornaStatus422() {
 
     org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
 }
+
+@Test
+public void checkin_ComPerfilCliente_RetornaStatus403() {
+
+    ErrorMessage errorMessage = testClient.post()
+            .uri("/api/v1/estacionamentos/check-in")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient,"JOAO@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "ModeloCarro", "CorCarro", "17526942360"))
+            .exchange()
+            .expectStatus().isForbidden()
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+    org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+
+}
+
 }
