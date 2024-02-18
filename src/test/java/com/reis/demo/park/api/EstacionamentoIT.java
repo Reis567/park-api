@@ -9,6 +9,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.reis.demo.park.api.web.dto.EstacionamentoCreateDTO;
 import com.reis.demo.park.api.web.dto.EstacionamentoResponseDTO;
+import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(scripts = "/sql/estacionamentos/estacionamentos-insert.sql" ,executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -35,7 +36,6 @@ public void checkin_ComDadosValidos_RetornaCheckinComStatus201ELocation() {
     org.assertj.core.api.Assertions.assertThat(responseBody.getRecibo()).isNotNull();
     org.assertj.core.api.Assertions.assertThat(responseBody.getPlaca()).isEqualTo("ABC1234");
 
-    // Verifica se o header "Location" está presente
     testClient
         .post()
         .uri("/api/v1/estacionamentos/check-in")
@@ -44,5 +44,23 @@ public void checkin_ComDadosValidos_RetornaCheckinComStatus201ELocation() {
         .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "ModeloCarro", "CorCarro", "17526942360"))
         .exchange()
         .expectHeader().exists("Location");
+}
+
+@Test
+public void checkin_ComClienteNaoEncontradoOuSemVaga_RetornaStatus422() {
+
+    ErrorMessage errorMessage = testClient
+            .post()
+            .uri("/api/v1/estacionamentos/check-in")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "ModeloCarro", "CorCarro", "1752942360"))
+            .exchange()
+            .expectStatus().isEqualTo(422)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+    // Verifique se a mensagem de erro não é nula e se contém a mensagem esperada
+    org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
 }
 }
