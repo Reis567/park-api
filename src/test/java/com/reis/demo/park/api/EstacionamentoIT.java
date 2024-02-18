@@ -60,7 +60,6 @@ public void checkin_ComClienteNaoEncontradoOuSemVaga_RetornaStatus422() {
             .expectBody(ErrorMessage.class)
             .returnResult().getResponseBody();
 
-    // Verifique se a mensagem de erro não é nula e se contém a mensagem esperada
     org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
 }
 }
