@@ -133,5 +133,24 @@ public void checkin_Semmarca_RetornaStatus422() {
 }
 
 
+@Test
+public void checkin_Semplaca_RetornaStatus422() {
+
+    ErrorMessage errorMessage = testClient
+            .post()
+            .uri("/api/v1/estacionamentos/check-in")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new EstacionamentoCreateDTO("", "marca", "modelo", "corcarro", "17526942360"))
+            .exchange()
+            .expectStatus().isEqualTo(422)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+    org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+}
+
+
+
 
 }
