@@ -153,4 +153,13 @@ public void checkin_Semplaca_RetornaStatus422() {
 
 
 
+@Sql(scripts = "/sql/estacionamentos/estacionamentos-ocupados-insert.sql" ,executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/sql/estacionamentos/estacionamentos-ocupados-delete.sql" ,executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Test
+public void checkin_ComVagasOcupadas_RetornaStatus404() {
+
+}
+
+
+
 }
