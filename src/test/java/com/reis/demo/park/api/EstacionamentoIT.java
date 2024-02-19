@@ -98,4 +98,23 @@ public void checkin_Semcor_RetornaStatus422() {
     org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
 }
 
+
+@Test
+public void checkin_Semmodelo_RetornaStatus422() {
+
+    ErrorMessage errorMessage = testClient
+            .post()
+            .uri("/api/v1/estacionamentos/check-in")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "", "corcarro", "17526942360"))
+            .exchange()
+            .expectStatus().isEqualTo(422)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+    org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+}
+
+
 }
