@@ -46,8 +46,25 @@ public void checkin_ComDadosValidos_RetornaCheckinComStatus201ELocation() {
         .expectHeader().exists("Location");
 }
 
+
 @Test
-public void checkin_ComClienteNaoEncontradoOuSemVaga_RetornaStatus422() {
+public void checkin_ComPerfilCliente_RetornaStatus403() {
+
+    ErrorMessage errorMessage = testClient.post()
+    .uri("/api/v1/estacionamentos/check-in")
+    .headers(JwtAuthentication.getHeaderAuthorization(testClient,"JOAO@gmail.com", "123456"))
+    .contentType(MediaType.APPLICATION_JSON)
+    .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "ModeloCarro", "CorCarro", "17526942360"))
+    .exchange()
+    .expectStatus().isForbidden()
+    .expectBody(ErrorMessage.class)
+    .returnResult().getResponseBody();
+    
+    org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+    
+}
+@Test
+public void checkin_ComClienteNaoEncontrado_RetornaStatus422() {
 
     ErrorMessage errorMessage = testClient
             .post()
@@ -63,21 +80,22 @@ public void checkin_ComClienteNaoEncontradoOuSemVaga_RetornaStatus422() {
     org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
 }
 
-@Test
-public void checkin_ComPerfilCliente_RetornaStatus403() {
 
-    ErrorMessage errorMessage = testClient.post()
+@Test
+public void checkin_Semcor_RetornaStatus422() {
+
+    ErrorMessage errorMessage = testClient
+            .post()
             .uri("/api/v1/estacionamentos/check-in")
-            .headers(JwtAuthentication.getHeaderAuthorization(testClient,"JOAO@gmail.com", "123456"))
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
             .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "ModeloCarro", "CorCarro", "17526942360"))
+            .bodyValue(new EstacionamentoCreateDTO("ABC1234", "MarcaCarro", "ModeloCarro", "", "17526942360"))
             .exchange()
-            .expectStatus().isForbidden()
+            .expectStatus().isEqualTo(422)
             .expectBody(ErrorMessage.class)
             .returnResult().getResponseBody();
 
     org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
-
 }
 
 }
