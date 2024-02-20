@@ -26,9 +26,12 @@ public class EstacionamentoService {
 
     @Transactional
     public ClienteVaga checkIn(ClienteVaga clienteVaga){
+        log.info("Iniciando check-in");
         Cliente cliente = clienteService.buscarPorCpf(clienteVaga.getCliente().getCpf());
+        log.info("Cliente encontrado: {}", cliente);
         clienteVaga.setCliente(cliente);
         Vaga vaga = vagaService.buscarPorVagaLivre();
+        log.info("Vaga encontrada: {}", vaga);
         vaga.setStatus(Vaga.StatusVaga.OCUPADA);
         clienteVaga.setVaga(vaga);
 
