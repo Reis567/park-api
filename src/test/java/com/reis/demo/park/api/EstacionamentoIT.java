@@ -190,5 +190,23 @@ public void checkin_ComVagasOcupadas_RetornaStatus404() {
 }
 
 
+@Test
+public void checkin_ComCpfDesconhecido_RetornaStatus404() {
+
+    ErrorMessage errorMessage = testClient
+            .post()
+            .uri("/api/v1/estacionamentos/check-in")
+            .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(new EstacionamentoCreateDTO("LQL2268", "Peugeot", "306", "preto", "06127587530"))
+            .exchange()
+            .expectStatus().isEqualTo(404)
+            .expectBody(ErrorMessage.class)
+            .returnResult().getResponseBody();
+
+    org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+}
+
+
 
 }
