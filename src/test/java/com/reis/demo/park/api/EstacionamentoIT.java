@@ -169,7 +169,9 @@ public void checkin_ComVagasOcupadas_RetornaStatus404() {
             .expectBody(ErrorMessage.class)
             .returnResult().getResponseBody();
 
-    org.assertj.core.api.Assertions.assertThat(errorMessage).isEqualTo(404);
+            org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
+            org.assertj.core.api.Assertions.assertThat(errorMessage.getMessage()).isEqualTo("Nenhuma vaga disponível.");
+        }
 }
 
 
