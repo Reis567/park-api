@@ -46,7 +46,7 @@ public class EstacionamentoController {
          @ApiResponse(responseCode = "201", description = "Check-in realizado com sucesso.",
             headers = @Header(name = "Location", description = "URI do recurso criado.", schema = @Schema(type = "string")),
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstacionamentoResponseDTO.class))),
-        @ApiResponse(responseCode = "404", description = "Nenhuma vaga disponível.",
+        @ApiResponse(responseCode = "404", description = "Nenhuma vaga disponível , ou CPF usado não cadastrado",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
         @ApiResponse(responseCode = "422", description = "Cliente não encontrado ou problema nos dados enviados ou dados inválidos.",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
