@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.reis.demo.park.api.entity.ClienteVaga;
+import com.reis.demo.park.api.service.ClienteVagaService;
 import com.reis.demo.park.api.service.EstacionamentoService;
 import com.reis.demo.park.api.web.dto.EstacionamentoCreateDTO;
 import com.reis.demo.park.api.web.dto.EstacionamentoResponseDTO;
@@ -33,6 +34,8 @@ public class EstacionamentoController {
 
 
     private final EstacionamentoService estacionamentoService;
+
+    private final ClienteVagaService clienteVagaService;
 
 
     @Operation(
