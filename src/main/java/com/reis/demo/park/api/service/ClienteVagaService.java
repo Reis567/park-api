@@ -31,6 +31,6 @@ public class ClienteVagaService {
 
     @Transactional(readOnly = true)
     public ClienteVaga buscarPorRecibo(String recibo) {
-        return clienteVagaRepository.findByReciboAndDataSaidaIsNull(recibo)
+        return clienteVagaRepository.findByReciboAndDataSaidaIsNull(recibo).orElseThrow();
     }
 }
