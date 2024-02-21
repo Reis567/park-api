@@ -226,6 +226,24 @@ public void getByRecibo_ComReciboExistente_RetornaCheckinComStatus200() {
 }
 
 
+@Test
+public void getByRecibo_ComReciboInexistente_RetornaErrorComStatus404() {
+
+    String recibo = "20210313-101301";
+
+    ErrorMessage responseBody = testClient
+        .get()
+        .uri("/api/v1/estacionamentos/check-in/{recibo}", recibo)
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isNotFound()
+        .expectBody(ErrorMessage.class)
+        .returnResult().getResponseBody();
+
+    org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+
+}
+
 
 
 }
