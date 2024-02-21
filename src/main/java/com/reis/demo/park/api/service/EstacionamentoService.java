@@ -60,7 +60,7 @@ public class EstacionamentoService {
         clienteVaga.setDataSaida(dataSaida);
 
         clienteVaga.getVaga().setStatus(Vaga.StatusVaga.LIVRE);
-        return clienteVagaService.salvar(clienteVaga)
+        return clienteVagaService.salvar(clienteVaga);
     }
 
 }

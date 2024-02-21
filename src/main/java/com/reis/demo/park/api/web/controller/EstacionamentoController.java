@@ -99,5 +99,7 @@ public class EstacionamentoController {
     public ResponseEntity<EstacionamentoResponseDTO> checkout(@PathVariable String recibo){
         ClienteVaga clienteVaga = estacionamentoService.checkOut(recibo);
 
+        EstacionamentoResponseDTO estacionamentoResponseDTO = ClienteVagaMapper.toDTO(clienteVaga);
+        return ResponseEntity.ok(estacionamentoResponseDTO);
     }
 }
