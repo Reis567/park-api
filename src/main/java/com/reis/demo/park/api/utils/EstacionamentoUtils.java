@@ -1,5 +1,8 @@
 package com.reis.demo.park.api.utils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 import lombok.AccessLevel;
@@ -20,5 +23,18 @@ public class EstacionamentoUtils {
         return recibo.replace("-", "")
                         .replace(":","")
                         .replace("T","-");
+    }
+
+
+
+    public static BigDecimal calcularCustoEstacionamento(LocalDateTime entrada, LocalDateTime saida) {
+        Duration duracao = Duration.between(entrada, saida);
+        long minutosTotais = duracao.toMinutes();
+
+        double total = 0.0;
+
+        
+
+        return new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
     }
 }
