@@ -33,7 +33,14 @@ public class EstacionamentoUtils {
 
         double total = 0.0;
 
-        
+        if (minutosTotais <= 15) {
+            total = PRIMEIROS_15_MINUTOS;
+        } else if (minutosTotais <= 60) {
+            total = PRIMEIROS_60_MINUTOS;
+        } else {
+            long minutosAdicionais = minutosTotais - 60;
+            total = PRIMEIROS_60_MINUTOS + Math.ceil((double) minutosAdicionais / 15) * ADICIONAL_15_MINUTOS;
+        }
 
         return new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
     }
