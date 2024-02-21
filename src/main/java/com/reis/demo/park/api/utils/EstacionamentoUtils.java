@@ -14,6 +14,7 @@ public class EstacionamentoUtils {
     private static final double PRIMEIROS_15_MINUTOS = 5.00;
     private static final double PRIMEIROS_60_MINUTOS = 9.25;
     private static final double ADICIONAL_15_MINUTOS = 1.75;
+    private static final double DESCONTO_PERCENTUAL = 0.30;
 
     public static String gerarRecibo(){
         LocalDateTime date = LocalDateTime.now();
