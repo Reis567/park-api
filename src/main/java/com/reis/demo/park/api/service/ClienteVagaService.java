@@ -3,6 +3,7 @@ package com.reis.demo.park.api.service;
 import org.springframework.stereotype.Service;
 
 import com.reis.demo.park.api.entity.ClienteVaga;
+import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.repository.ClienteVagaRepository;
 import com.reis.demo.park.api.utils.EstacionamentoUtils;
 
@@ -31,6 +32,10 @@ public class ClienteVagaService {
 
     @Transactional(readOnly = true)
     public ClienteVaga buscarPorRecibo(String recibo) {
-        return clienteVagaRepository.findByReciboAndDataSaidaIsNull(recibo).orElseThrow();
+        return clienteVagaRepository.findByReciboAndDataSaidaIsNull(recibo).orElseThrow(
+            ()-> new EntityNotFoundException(
+                String.format("Recibo '%s' não encontrado no sistema ou check-out já realizado",recibo)
+            )
+        );
     }
 }
