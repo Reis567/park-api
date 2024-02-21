@@ -94,6 +94,20 @@ public class EstacionamentoController {
     }
 
 
+
+    @Operation(
+    summary = "Realizar check-out no estacionamento",
+    security = @SecurityRequirement(name = "security"),
+    description = "Realiza o check-out de um cliente no estacionamento.",
+    responses = {
+         @ApiResponse(responseCode = "200", description = "Check-out realizado com sucesso.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstacionamentoResponseDTO.class))),
+        @ApiResponse(responseCode = "404", description = "Check-in não encontrado ou recibo inválido.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+        @ApiResponse(responseCode = "403", description = "Operação não permitida para o perfil cliente.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+    }
+)
     @PutMapping("/check-out/{recibo}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EstacionamentoResponseDTO> checkout(@PathVariable String recibo){
