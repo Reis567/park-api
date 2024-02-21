@@ -221,7 +221,12 @@ public void getByRecibo_ComReciboExistente_RetornaCheckinComStatus200() {
         .expectBody(EstacionamentoResponseDTO.class)
         .returnResult().getResponseBody();
 
-    org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getRecibo()).isEqualTo("20230313-101301");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getPlaca()).isEqualTo("GOL1234");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getMarca()).isEqualTo("VW");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getModelo()).isEqualTo("Gol");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getCor()).isEqualTo("BRANCO");
 
 }
 
