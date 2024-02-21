@@ -232,6 +232,29 @@ public void getByRecibo_ComReciboExistente_RetornaCheckinComStatus200() {
 
 
 @Test
+public void getByRecibo_ComReciboExistenteEPerfilDeCliente_RetornaCheckinComStatus200() {
+
+    String reciboExistente = "20230313-101301";
+
+    EstacionamentoResponseDTO responseBody = testClient
+        .get()
+        .uri("/api/v1/estacionamentos/check-in/{recibo}", reciboExistente)
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody(EstacionamentoResponseDTO.class)
+        .returnResult().getResponseBody();
+
+        org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(responseBody.getRecibo()).isEqualTo("20230313-101301");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getPlaca()).isEqualTo("GOL1234");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getMarca()).isEqualTo("VW");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getModelo()).isEqualTo("Gol");
+        org.assertj.core.api.Assertions.assertThat(responseBody.getCor()).isEqualTo("BRANCO");
+
+}
+
+@Test
 public void getByRecibo_ComReciboInexistente_RetornaErrorComStatus404() {
 
     String recibo = "20210313-101301";
