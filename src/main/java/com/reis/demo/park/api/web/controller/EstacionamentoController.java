@@ -74,5 +74,7 @@ public class EstacionamentoController {
     @GetMapping("/check-in/{recibo}")
     public ResponseEntity<EstacionamentoResponseDTO> getByRecibo(@PathVariable String recibo){
         ClienteVaga clienteVaga = clienteVagaService.buscarPorRecibo(recibo);
+
+        EstacionamentoResponseDTO estacionamentoResponseDTO = ClienteVagaMapper.toDTO(clienteVaga);
     }
 }
