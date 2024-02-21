@@ -19,7 +19,7 @@ public class ClienteVagaService {
     @Transactional
     public ClienteVaga salvar(ClienteVaga clienteVaga) {
         try {
-            //clienteVaga.setRecibo(EstacionamentoUtils.gerarRecibo());
+            // clienteVaga.setRecibo(EstacionamentoUtils.gerarRecibo());
 
             log.info("Salvando clienteVaga: {}", clienteVaga);
             return clienteVagaRepository.save(clienteVaga);
@@ -27,5 +27,10 @@ public class ClienteVagaService {
             log.error("Erro ao salvar clienteVaga. Motivo: {}", ex.getMessage());
             throw ex;
         }
+    }
+
+    @Transactional(readOnly = true)
+    public ClienteVaga buscarPorRecibo(String recibo) {
+        return clienteVagaRepository.findByReciboAndDataSaidaIsNull(recibo)
     }
 }
