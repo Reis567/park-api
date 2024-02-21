@@ -71,6 +71,19 @@ public class EstacionamentoController {
             return ResponseEntity.status(HttpStatus.CREATED).location(location).body(responseDTO);
     }
     
+
+
+    @Operation(
+    summary = "Buscar check-in por recibo",
+    security = @SecurityRequirement(name = "security"),
+    description = "Retorna os detalhes do check-in associado ao recibo fornecido.",
+    responses = {
+        @ApiResponse(responseCode = "200", description = "Check-in encontrado com sucesso.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = EstacionamentoResponseDTO.class))),
+        @ApiResponse(responseCode = "404", description = "Check-in não encontrado.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+    }
+)
     @GetMapping("/check-in/{recibo}")
     @PreAuthorize("hasAnyRole('ADMIN','CLIENTE')")
     public ResponseEntity<EstacionamentoResponseDTO> getByRecibo(@PathVariable String recibo){
