@@ -272,6 +272,24 @@ public void getByRecibo_ComReciboInexistente_RetornaErrorComStatus404() {
 
 }
 
+@Test
+public void checkout_ComReciboExistente_RetornaCheckoutComStatus200() {
+
+    EstacionamentoResponseDTO checkoutResponse = testClient
+        .put()
+        .uri("/api/v1/estacionamentos/check-out/20230313-101301")
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody(EstacionamentoResponseDTO.class)
+        .returnResult().getResponseBody();
+
+    // Verifique se a resposta do check-out está correta
+    org.assertj.core.api.Assertions.assertThat(checkoutResponse).isNotNull();
+    org.assertj.core.api.Assertions.assertThat(checkoutResponse.getRecibo()).isEqualTo("20230313-101301");
+    org.assertj.core.api.Assertions.assertThat(checkoutResponse.getValor()).isNotNull();
+}
+
 
 
 }
