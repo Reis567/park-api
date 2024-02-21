@@ -45,4 +45,13 @@ public class EstacionamentoUtils {
 
         return new BigDecimal(total).setScale(2, RoundingMode.HALF_EVEN);
     }
+
+    public static BigDecimal calcularDesconto(BigDecimal custo, long numeroDeVezes) {
+        if (numeroDeVezes > 0) {
+            BigDecimal desconto = custo.multiply(BigDecimal.valueOf(DESCONTO_PERCENTUAL));
+            return desconto.setScale(2, RoundingMode.HALF_EVEN);
+        } else {
+            return BigDecimal.ZERO;
+        }
+    }
 }
