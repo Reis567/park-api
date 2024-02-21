@@ -207,6 +207,25 @@ public void checkin_ComCpfDesconhecido_RetornaStatus404() {
     org.assertj.core.api.Assertions.assertThat(errorMessage).isNotNull();
 }
 
+@Test
+public void getByRecibo_ComReciboExistente_RetornaCheckinComStatus200() {
+
+    String reciboExistente = "20230313-101301";
+
+    EstacionamentoResponseDTO responseBody = testClient
+        .get()
+        .uri("/api/v1/estacionamentos/check-in/{recibo}", reciboExistente)
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody(EstacionamentoResponseDTO.class)
+        .returnResult().getResponseBody();
+
+    org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+
+}
+
+
 
 
 }
