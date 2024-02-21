@@ -290,6 +290,21 @@ public void checkout_ComReciboExistente_RetornaCheckoutComStatus200() {
     org.assertj.core.api.Assertions.assertThat(checkoutResponse.getValor()).isNotNull();
 }
 
+@Test
+public void checkout_ComReciboInexistente_RetornaErrorComStatus404() {
+    ErrorMessage responseBody = testClient
+        .put()
+        .uri("/api/v1/estacionamentos/check-out/ReciboInexistente")
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isNotFound()
+        .expectBody(ErrorMessage.class)
+        .returnResult().getResponseBody();
+
+    // Verifique se a resposta de erro está correta
+    org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+}
+
 
 
 }
