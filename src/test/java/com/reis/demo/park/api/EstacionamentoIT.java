@@ -301,10 +301,26 @@ public void checkout_ComReciboInexistente_RetornaErrorComStatus404() {
         .expectBody(ErrorMessage.class)
         .returnResult().getResponseBody();
 
-    // Verifique se a resposta de erro está correta
+
     org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
 }
 
 
+
+
+@Test
+public void checkoutPorCliente_ComReciboExistente_RetornaForbidden() {
+    ErrorMessage responseBody = testClient
+        .put()
+        .uri("/api/v1/estacionamentos/check-out/20230313-101301")
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isForbidden()
+        .expectBody(ErrorMessage.class)
+        .returnResult().getResponseBody();
+
+    org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+
+}
 
 }
