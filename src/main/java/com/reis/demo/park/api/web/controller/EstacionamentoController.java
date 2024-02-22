@@ -2,6 +2,7 @@ package com.reis.demo.park.api.web.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -120,9 +121,14 @@ public class EstacionamentoController {
 
     @GetMapping("/{clienteCPF}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<EstacionamentoResponseDTO> GetEstacionamentosByCPF(@PathVariable String clienteCPF){
+    public ResponseEntity<List<EstacionamentoResponseDTO>> getEstacionamentosByCPF(@PathVariable String clienteCPF){
         List<ClienteVaga> usosDeEstacionamento = clienteVagaService.getUsosDeEstacionamentoPorCPF(clienteCPF);
-    }
 
+        List<EstacionamentoResponseDTO> responseDTOs = usosDeEstacionamento.stream()
+                .map(ClienteVagaMapper::toDTO)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responseDTOs);
+    }
 
 }
