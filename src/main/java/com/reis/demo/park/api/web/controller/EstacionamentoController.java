@@ -124,6 +124,11 @@ public class EstacionamentoController {
     public ResponseEntity<List<EstacionamentoResponseDTO>> getEstacionamentosByCPF(@PathVariable String clienteCPF){
         List<ClienteVaga> usosDeEstacionamento = clienteVagaService.getUsosDeEstacionamentoPorCPF(clienteCPF);
 
+
+        if (usosDeEstacionamento.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
         List<EstacionamentoResponseDTO> responseDTOs = usosDeEstacionamento.stream()
                 .map(ClienteVagaMapper::toDTO)
                 .collect(Collectors.toList());
