@@ -1,5 +1,7 @@
 package com.reis.demo.park.api.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.reis.demo.park.api.entity.ClienteVaga;
@@ -42,5 +44,12 @@ public class ClienteVagaService {
     @Transactional(readOnly = true)
     public long getTotalVezesEstacionamentoCompleto(String cpf) {
         return clienteVagaRepository.countByClienteCpfAndDataSaidaIsNotNull(cpf);
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<ClienteVaga> getUsosDeEstacionamentoPorCPF(String clienteCPF) {
+
+        return clienteVagaRepository.findByClienteCpfAndDataSaidaIsNotNull(clienteCPF);
     }
 }
