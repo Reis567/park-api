@@ -20,6 +20,7 @@ import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -119,6 +120,21 @@ public class EstacionamentoController {
         return ResponseEntity.ok(estacionamentoResponseDTO);
     }
 
+
+
+    @Operation(
+    summary = "Listar usos de estacionamento por CPF do cliente",
+    security = @SecurityRequirement(name = "security"),
+    description = "Retorna uma lista de usos de estacionamento associada ao CPF do cliente fornecido.",
+    responses = {
+        @ApiResponse(responseCode = "200", description = "Lista de usos de estacionamento encontrada com sucesso.",
+            content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = EstacionamentoResponseDTO.class)))),
+        @ApiResponse(responseCode = "403", description = "Acesso proibido. Somente usuários com perfil de administrador podem acessar esta operação.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhum uso de estacionamento encontrado para o CPF do cliente.",
+            content = @Content)
+    }
+)
     @GetMapping("/{clienteCPF}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<EstacionamentoResponseDTO>> getEstacionamentosByCPF(@PathVariable String clienteCPF){
