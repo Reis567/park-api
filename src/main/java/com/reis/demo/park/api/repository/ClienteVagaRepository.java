@@ -1,5 +1,6 @@
 package com.reis.demo.park.api.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,8 @@ public interface ClienteVagaRepository extends JpaRepository<ClienteVaga, Long>{
     Optional<ClienteVaga> findByReciboAndDataSaidaIsNull(String recibo);
 
     long countByClienteCpfAndDataSaidaIsNotNull(String cpf);
+
+    List<ClienteVaga> findByClienteCpfAndDataSaidaIsNotNull(String clienteCPF);
 
     
 } 

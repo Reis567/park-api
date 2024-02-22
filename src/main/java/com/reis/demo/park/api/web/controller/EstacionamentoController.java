@@ -116,4 +116,5 @@ public class EstacionamentoController {
         EstacionamentoResponseDTO estacionamentoResponseDTO = ClienteVagaMapper.toDTO(clienteVaga);
         return ResponseEntity.ok(estacionamentoResponseDTO);
     }
+
 }
