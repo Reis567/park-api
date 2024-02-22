@@ -1,6 +1,7 @@
 package com.reis.demo.park.api.web.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -116,5 +117,12 @@ public class EstacionamentoController {
         EstacionamentoResponseDTO estacionamentoResponseDTO = ClienteVagaMapper.toDTO(clienteVaga);
         return ResponseEntity.ok(estacionamentoResponseDTO);
     }
+
+    @GetMapping("/{clienteCPF}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<EstacionamentoResponseDTO> GetEstacionamentosByCPF(@PathVariable String clienteCPF){
+        List<ClienteVaga> usosDeEstacionamento = clienteVagaService.getUsosDeEstacionamentoPorCPF(clienteCPF);
+    }
+
 
 }
