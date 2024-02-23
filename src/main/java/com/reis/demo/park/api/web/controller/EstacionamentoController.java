@@ -4,6 +4,9 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -137,7 +140,7 @@ public class EstacionamentoController {
 )
     @GetMapping("/{clienteCPF}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<EstacionamentoResponseDTO>> getEstacionamentosByCPF(@PathVariable String clienteCPF){
+    public ResponseEntity<List<EstacionamentoResponseDTO>> getEstacionamentosByCPF(@PathVariable String clienteCPF,@PageableDefault(size = 5,sort = "dataEntrada",direction = Sort.Direction.ASC) Pageable pageable){
         List<ClienteVaga> usosDeEstacionamento = clienteVagaService.getUsosDeEstacionamentoPorCPF(clienteCPF);
 
 
