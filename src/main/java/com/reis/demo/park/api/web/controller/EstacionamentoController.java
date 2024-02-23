@@ -142,7 +142,7 @@ public class EstacionamentoController {
             content = @Content)
     }
 )
-    @GetMapping("/{clienteCPF}")
+    @GetMapping("/cpf/{clienteCPF}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageableDTO> getEstacionamentosByCPF(@PathVariable String clienteCPF,@PageableDefault(size = 5,sort = "dataEntrada",direction = Sort.Direction.ASC) Pageable pageable){
 
