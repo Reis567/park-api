@@ -170,6 +170,10 @@ public class EstacionamentoController {
     @Operation(
     summary = "Buscar todos os estacionamentos do cliente logado",
     security = @SecurityRequirement(name = "security"),
+    parameters = {
+        @Parameter(name = "size", description = "Número de elementos por página. O padrão é 5."),
+        @Parameter(name = "page", description = "Número da página. O padrão é 0.")
+    },
     responses = {
         @ApiResponse(responseCode = "200", description = "Estacionamentos do cliente encontrados com sucesso.",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = PageableDTO.class))),
