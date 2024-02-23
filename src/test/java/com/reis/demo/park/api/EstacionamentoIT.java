@@ -403,4 +403,17 @@ public void getEstacionamentosByCPF_ComCPFCliente_RetornaUsosDeEstacionamentoCom
 
 
 }
+
+
+@Test
+public void getEstacionamentosByCPF_ComPerfilAdmin_RetornaForbidden() {
+
+
+    testClient
+        .get()
+        .uri("/api/v1/estacionamentos")
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isForbidden();
+}
 }
