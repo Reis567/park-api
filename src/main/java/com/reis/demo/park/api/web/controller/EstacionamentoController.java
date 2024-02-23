@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.reis.demo.park.api.entity.ClienteVaga;
+import com.reis.demo.park.api.repository.projection.ClienteVagaProjection;
 import com.reis.demo.park.api.service.ClienteVagaService;
 import com.reis.demo.park.api.service.EstacionamentoService;
 import com.reis.demo.park.api.web.dto.EstacionamentoCreateDTO;
@@ -141,7 +143,8 @@ public class EstacionamentoController {
     @GetMapping("/{clienteCPF}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<EstacionamentoResponseDTO>> getEstacionamentosByCPF(@PathVariable String clienteCPF,@PageableDefault(size = 5,sort = "dataEntrada",direction = Sort.Direction.ASC) Pageable pageable){
-        List<ClienteVaga> usosDeEstacionamento = clienteVagaService.getUsosDeEstacionamentoPorCPF(clienteCPF);
+
+        Page<ClienteVagaProjection> usosDeEstacionamento = clienteVagaService.getUsosDeEstacionamentoPorCPF(clienteCPF,pageable);
 
 
         if (usosDeEstacionamento.isEmpty()) {

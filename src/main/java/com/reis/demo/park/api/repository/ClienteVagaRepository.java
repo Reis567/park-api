@@ -3,9 +3,12 @@ package com.reis.demo.park.api.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.reis.demo.park.api.entity.ClienteVaga;
+import com.reis.demo.park.api.repository.projection.ClienteVagaProjection;
 
 public interface ClienteVagaRepository extends JpaRepository<ClienteVaga, Long>{
 
@@ -13,7 +16,7 @@ public interface ClienteVagaRepository extends JpaRepository<ClienteVaga, Long>{
 
     long countByClienteCpfAndDataSaidaIsNotNull(String cpf);
 
-    List<ClienteVaga> findByClienteCpfAndDataSaidaIsNotNull(String clienteCPF);
+    Page<ClienteVagaProjection> findAllByClienteCpf(String clienteCPF,Pageable pageable);
 
     
 } 

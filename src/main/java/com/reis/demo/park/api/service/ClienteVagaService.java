@@ -2,11 +2,14 @@ package com.reis.demo.park.api.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.reis.demo.park.api.entity.ClienteVaga;
 import com.reis.demo.park.api.exception.EntityNotFoundException;
 import com.reis.demo.park.api.repository.ClienteVagaRepository;
+import com.reis.demo.park.api.repository.projection.ClienteVagaProjection;
 import com.reis.demo.park.api.utils.EstacionamentoUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -48,8 +51,8 @@ public class ClienteVagaService {
 
 
     @Transactional(readOnly = true)
-    public List<ClienteVaga> getUsosDeEstacionamentoPorCPF(String clienteCPF) {
+    public Page<ClienteVagaProjection> getUsosDeEstacionamentoPorCPF(String clienteCPF,Pageable pageable) {
 
-        return clienteVagaRepository.findByClienteCpfAndDataSaidaIsNotNull(clienteCPF);
+        return clienteVagaRepository.findAllByClienteCpf(clienteCPF,pageable);
     }
 }
