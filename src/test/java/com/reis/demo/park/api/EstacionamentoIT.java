@@ -389,4 +389,18 @@ public void getEstacionamentosByCPF_ComCPFCliente_RetornaUsosDeEstacionamentoCom
     org.assertj.core.api.Assertions.assertThat(responseBody.getContent()).isNotEmpty();
 }
 
+
+
+@Test
+public void getEstacionamentosByCPF_ComCPFCliente_RetornaUsosDeEstacionamentoComStatus204() {
+
+    testClient
+        .get()
+        .uri("/api/v1/estacionamentos")
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "cliente@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isNoContent();
+
+
+}
 }
