@@ -9,6 +9,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.reis.demo.park.api.web.dto.EstacionamentoCreateDTO;
 import com.reis.demo.park.api.web.dto.EstacionamentoResponseDTO;
+import com.reis.demo.park.api.web.dto.PageableDTO;
 import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -320,6 +321,27 @@ public void checkoutPorCliente_ComReciboExistente_RetornaForbidden() {
         .returnResult().getResponseBody();
 
     org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+
+}
+
+
+
+@Test
+public void getEstacionamentosByCPF_ComCPFExistente_RetornaUsosDeEstacionamentoComStatus200() {
+
+    String clienteCPF = "17526942360";
+
+    PageableDTO responseBody = testClient
+        .get()
+        .uri("/api/v1/estacionamentos/cpf/{clienteCPF}", clienteCPF)
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody(PageableDTO.class)
+        .returnResult().getResponseBody();
+
+    org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+    org.assertj.core.api.Assertions.assertThat(responseBody.getContent()).isNotEmpty();
 
 }
 
