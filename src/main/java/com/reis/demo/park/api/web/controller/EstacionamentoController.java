@@ -27,7 +27,6 @@ import com.reis.demo.park.api.web.dto.mapper.ClienteVagaMapper;
 import com.reis.demo.park.api.web.dto.mapper.PageableMapper;
 import com.reis.demo.park.api.web.exception.ErrorMessage;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -167,6 +166,17 @@ public class EstacionamentoController {
 
 
 
+
+    @Operation(
+    summary = "Buscar todos os estacionamentos do cliente logado",
+    security = @SecurityRequirement(name = "security"),
+    responses = {
+        @ApiResponse(responseCode = "200", description = "Estacionamentos do cliente encontrados com sucesso.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PageableDTO.class))),
+        @ApiResponse(responseCode = "204", description = "Nenhum estacionamento encontrado para o cliente."),
+        @ApiResponse(responseCode = "403", description = "Acesso proibido. Necessário perfil CLIENTE."),
+    }
+)
     @GetMapping
     @PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<PageableDTO> getAllEstacionamentosDoCliente(@AuthenticationPrincipal JwtUserDetails jwtUserDetails,
