@@ -11,9 +11,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.reis.demo.park.api.config.jwt.JwtUserDetails;
 import com.reis.demo.park.api.entity.ClienteVaga;
 import com.reis.demo.park.api.repository.projection.ClienteVagaProjection;
 import com.reis.demo.park.api.service.ClienteVagaService;
@@ -159,6 +161,24 @@ public class EstacionamentoController {
             return ResponseEntity.noContent().build();
         }
 
+
+        return ResponseEntity.ok(pageableDTO);
+    }
+
+
+
+    @GetMapping
+    @PreAuthorize("hasRole('CLIENTE')")
+    public ResponseEntity<PageableDTO> getAllEstacionamentosDoCliente(@AuthenticationPrincipal JwtUserDetails jwtUserDetails,
+            @PageableDefault(size = 5, sort = "dataEntrada", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        Page<ClienteVagaProjection> usosDeEstacionamento = clienteVagaService.getTodosPorUsuarioId(jwtUserDetails.getId(),
+                pageable);
+        PageableDTO pageableDTO = PageableMapper.toDTO(usosDeEstacionamento);
+
+        if (usosDeEstacionamento.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
 
         return ResponseEntity.ok(pageableDTO);
     }
