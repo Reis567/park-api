@@ -359,4 +359,18 @@ public void getEstacionamentosByCPF_ComCPFInexistente_RetornaNoContent() {
 }
 
 
+@Test
+public void getEstacionamentosByCPF_ComPerfilClienteECPFvazio_RetornaForbidden() {
+
+    String clienteCPF = "17526942360";
+
+    testClient
+        .get()
+        .uri("/api/v1/estacionamentos/cpf/{clienteCPF}", clienteCPF)
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isForbidden();
+}
+
+
 }
