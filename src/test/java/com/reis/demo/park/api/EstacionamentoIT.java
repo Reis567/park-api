@@ -345,4 +345,18 @@ public void getEstacionamentosByCPF_ComCPFExistente_RetornaUsosDeEstacionamentoC
 
 }
 
+@Test
+public void getEstacionamentosByCPF_ComCPFInexistente_RetornaNoContent() {
+
+    String clienteCPF = "23794879520";
+
+    testClient
+        .get()
+        .uri("/api/v1/estacionamentos/cpf/{clienteCPF}", clienteCPF)
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "reis@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isNoContent();
+}
+
+
 }
