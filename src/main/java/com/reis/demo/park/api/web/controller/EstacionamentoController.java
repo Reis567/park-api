@@ -26,6 +26,7 @@ import com.reis.demo.park.api.web.dto.mapper.PageableMapper;
 import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.*;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -132,10 +133,14 @@ public class EstacionamentoController {
     @Operation(
     summary = "Listar usos de estacionamento por CPF do cliente",
     security = @SecurityRequirement(name = "security"),
-    description = "Retorna uma lista de usos de estacionamento associada ao CPF do cliente fornecido.",
+    description = "Retorna uma lista paginada de usos de estacionamento associada ao CPF do cliente fornecido.",
+    parameters = {
+        @Parameter(name = "size", description = "Número de elementos por página. O padrão é 5."),
+        @Parameter(name = "page", description = "Número da página. O padrão é 0.")
+    },
     responses = {
-        @ApiResponse(responseCode = "200", description = "Lista de usos de estacionamento encontrada com sucesso.",
-            content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = EstacionamentoResponseDTO.class)))),
+        @ApiResponse(responseCode = "200", description = "Lista paginada de usos de estacionamento encontrada com sucesso.",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = PageableDTO.class))),
         @ApiResponse(responseCode = "403", description = "Acesso proibido. Somente usuários com perfil de administrador podem acessar esta operação.",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
         @ApiResponse(responseCode = "204", description = "Nenhum uso de estacionamento encontrado para o CPF do cliente.",
