@@ -3,6 +3,7 @@ insert into USUARIOS( id, username,password, role) values (101,'JOAO@gmail.com',
 insert into USUARIOS( id, username,password, role) values (102,'davi@gmail.com','$2a$12$4G1.TGGdDn2BeBBjA/bXZ.xpAIcyjGqupKqYKLG55wxCZsKXgPuIu','ROLE_CLIENTE');
 insert into USUARIOS( id, username,password, role) values (103,'reis@gmail.com','$2a$12$4G1.TGGdDn2BeBBjA/bXZ.xpAIcyjGqupKqYKLG55wxCZsKXgPuIu','ROLE_ADMIN');
 
+insert into CLIENTES(id,nome, cpf, id_usuario) values(20, 'Victor sá', '23794879520', 100);
 insert into CLIENTES(id,nome, cpf, id_usuario) values(21, 'Fernandinho Beiramar', '59575966392', 101);
 insert into CLIENTES(id,nome, cpf, id_usuario) values(22, 'Alexander Barboza', '17526942360', 102);
 
