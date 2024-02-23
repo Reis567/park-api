@@ -7,7 +7,7 @@ insert into USUARIOS( id, username,password, role) values (104,'cliente@gmail.co
 insert into CLIENTES(id,nome, cpf, id_usuario) values(20, 'Victor sá', '23794879520', 100);
 insert into CLIENTES(id,nome, cpf, id_usuario) values(21, 'Fernandinho Beiramar', '59575966392', 101);
 insert into CLIENTES(id,nome, cpf, id_usuario) values(22, 'Alexander Barboza', '17526942360', 102);
-insert into CLIENTES(id,nome, cpf, id_usuario) values(23, 'Mateo ponte', '17526942360', 104);
+insert into CLIENTES(id,nome, cpf, id_usuario) values(23, 'Mateo ponte', '34548173587', 104);
 
 
 insert into VAGAS(id, codigo,status) VALUES (100,'A-01', 'OCUPADA');

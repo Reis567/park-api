@@ -373,4 +373,20 @@ public void getEstacionamentosByCPF_ComPerfilClienteECPFvazio_RetornaForbidden()
 }
 
 
+@Test
+public void getEstacionamentosByCPF_ComCPFCliente_RetornaUsosDeEstacionamentoComStatus200() {
+
+    PageableDTO responseBody = testClient
+        .get()
+        .uri("/api/v1/estacionamentos")
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "JOAO@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody(PageableDTO.class)
+        .returnResult().getResponseBody();
+
+    org.assertj.core.api.Assertions.assertThat(responseBody).isNotNull();
+    org.assertj.core.api.Assertions.assertThat(responseBody.getContent()).isNotEmpty();
+}
+
 }
