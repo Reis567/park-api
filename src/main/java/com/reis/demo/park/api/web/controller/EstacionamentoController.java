@@ -20,7 +20,9 @@ import com.reis.demo.park.api.service.ClienteVagaService;
 import com.reis.demo.park.api.service.EstacionamentoService;
 import com.reis.demo.park.api.web.dto.EstacionamentoCreateDTO;
 import com.reis.demo.park.api.web.dto.EstacionamentoResponseDTO;
+import com.reis.demo.park.api.web.dto.PageableDTO;
 import com.reis.demo.park.api.web.dto.mapper.ClienteVagaMapper;
+import com.reis.demo.park.api.web.dto.mapper.PageableMapper;
 import com.reis.demo.park.api.web.exception.ErrorMessage;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -142,20 +144,18 @@ public class EstacionamentoController {
 )
     @GetMapping("/{clienteCPF}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<EstacionamentoResponseDTO>> getEstacionamentosByCPF(@PathVariable String clienteCPF,@PageableDefault(size = 5,sort = "dataEntrada",direction = Sort.Direction.ASC) Pageable pageable){
+    public ResponseEntity<PageableDTO> getEstacionamentosByCPF(@PathVariable String clienteCPF,@PageableDefault(size = 5,sort = "dataEntrada",direction = Sort.Direction.ASC) Pageable pageable){
 
         Page<ClienteVagaProjection> usosDeEstacionamento = clienteVagaService.getUsosDeEstacionamentoPorCPF(clienteCPF,pageable);
+        PageableDTO pageableDTO = PageableMapper.toDTO(usosDeEstacionamento);
 
 
         if (usosDeEstacionamento.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        List<EstacionamentoResponseDTO> responseDTOs = usosDeEstacionamento.stream()
-                .map(ClienteVagaMapper::toDTO)
-                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(responseDTOs);
+        return ResponseEntity.ok(pageableDTO);
     }
 
 }
