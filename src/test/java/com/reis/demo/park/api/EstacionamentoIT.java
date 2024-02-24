@@ -357,6 +357,17 @@ public void getEstacionamentosByCPF_ComCPFInexistente_RetornaNoContent() {
         .exchange()
         .expectStatus().isNoContent();
 }
+@Test
+public void getEstacionamentosByCPF_AdminComCPFInexistente_RetornaNoContent() {
+    String clienteCPFInexistente = "98765432100";
+
+    testClient
+        .get()
+        .uri("/api/v1/estacionamentos/cpf/{clienteCPF}", clienteCPFInexistente)
+        .headers(JwtAuthentication.getHeaderAuthorization(testClient, "ana@gmail.com", "123456"))
+        .exchange()
+        .expectStatus().isNoContent();
+}
 
 
 @Test
