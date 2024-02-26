@@ -27,6 +27,20 @@ Certifique-se de ter as seguintes ferramentas instaladas em sua máquina antes d
 
 ## URLs Disponíveis
 
+### Vagas
+
+- **Criar Nova Vaga**
+  - URL: `http://localhost:8080/api/v1/vagas`
+  - Método: POST
+  - Descrição: Endpoint para criar uma nova vaga de estacionamento.
+  - Restrições: Apenas perfis com a role 'ADMIN' têm permissão para acessar este recurso.
+
+- **Buscar Vaga por Código**
+  - URL: `http://localhost:8080/api/v1/vagas/{codigo}`
+  - Método: GET
+  - Descrição: Endpoint para recuperar informações de uma vaga específica por código.
+  - Restrições: Apenas perfis com a role 'ADMIN' têm permissão para acessar este recurso.
+
 ### Clientes
 
 - **Criar Novo Cliente**
